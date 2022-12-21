@@ -11,7 +11,7 @@
 std::pair<std::vector<std::string>, std::vector<std::string>> readTextFile(std::ifstream& textFile);
 std::map<int, std::string> parseFirstHalf(std::vector<std::string>& firstVector);
 
-void part1(std::map<int, std::string>& m, std::vector<std::string>& v);
+void solution(std::map<int, std::string>& m, std::vector<std::string>& v);
 
 
 int main() {
@@ -24,7 +24,7 @@ int main() {
     std::map<int, std::string> hMap;
     hMap = parseFirstHalf(vectorPair.first);
 
-    part1(hMap, vectorPair.second);
+    solution(hMap, vectorPair.second);
 }
 
 std::pair<std::vector<std::string>, std::vector<std::string>> readTextFile(std::ifstream& textFile) {
@@ -92,7 +92,7 @@ std::map<int, std::string> parseFirstHalf(std::vector<std::string>& firstVector)
     return hashMap;
 }
 
-void part1(std::map<int, std::string>& m, std::vector<std::string>& v) {
+void solution(std::map<int, std::string>& m, std::vector<std::string>& v) {
 
     std::map<int, std::string> tempMap = m;
     std::map<int, std::string> tempMap2 = m;
@@ -152,6 +152,6 @@ void part1(std::map<int, std::string>& m, std::vector<std::string>& v) {
     for(int i = 0; i < tempMap2.size(); i++) {
         result += tempMap2[i][0];
     }
-    
+
     std::cout << "Part2: " << result << "\n";
 }
