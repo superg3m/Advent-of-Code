@@ -63,28 +63,6 @@ std::pair<std::string, std::string> splitData(std::string& line) {
     return std::make_pair(firstHalf, secondHalf);
 }
 
-void part1(std::vector<std::pair<std::string, std::string>>& dataPair) {
-    std::set<char> uniqueCharacterSet;
-    std::string first;
-    std::string second;
-    int priority = 0;
-    for(int i = 0; i < dataPair.size(); i++) {
-        first = dataPair[i].first;
-        second = dataPair[i].second;
-        for(int j = 0; j < first.length(); j++) {
-            for(int k = 0; k < second.length(); k++) {
-                if(first[j] == second[k]) uniqueCharacterSet.insert(first[j]);
-                
-            }
-        }
-        for(char c : uniqueCharacterSet) {
-            priority += std::islower(c) ? c - 96 : c - 38;
-        }
-        uniqueCharacterSet.clear();
-    }
-    std::cout << "PART1 Priority: " << priority << "\n";
-}
-
 char commonChars(std::vector<std::string>& words) {
     char c;
     std::string string_intersectionONE;
@@ -115,6 +93,28 @@ char commonChars(std::vector<std::string>& words) {
     c = char_array[0];
 
     return c;
+}
+
+void part1(std::vector<std::pair<std::string, std::string>>& dataPair) {
+    std::set<char> uniqueCharacterSet;
+    std::string first;
+    std::string second;
+    int priority = 0;
+    for(int i = 0; i < dataPair.size(); i++) {
+        first = dataPair[i].first;
+        second = dataPair[i].second;
+        for(int j = 0; j < first.length(); j++) {
+            for(int k = 0; k < second.length(); k++) {
+                if(first[j] == second[k]) uniqueCharacterSet.insert(first[j]);
+                
+            }
+        }
+        for(char c : uniqueCharacterSet) {
+            priority += std::islower(c) ? c - 96 : c - 38;
+        }
+        uniqueCharacterSet.clear();
+    }
+    std::cout << "PART1 Priority: " << priority << "\n";
 }
 
 void part2(std::vector<char> commonVector) {

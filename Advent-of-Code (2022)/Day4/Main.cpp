@@ -129,10 +129,17 @@ void solution(std::vector<std::pair<std::string, std::string>>& dataPair) {
         secondElementVector = split(secondElement);
 
         std::set_intersection(firstElementVector.begin(), firstElementVector.end(), secondElementVector.begin(), secondElementVector.end(), std::back_inserter(intersectingVector));
+        std::cout << "Intersecting: {";
+        for(int x : intersectingVector) {
+            std::cout << x << " ";
+        }
+        std::cout << "} \n";
+        
         if(!intersectingVector.empty()) overlapAtALL++;
 
         firstElementVector.erase(std::set_difference(firstElementVector.begin(), firstElementVector.end(), intersectingVector.begin(), intersectingVector.end(), firstElementVector.begin()), firstElementVector.end());
         secondElementVector.erase(std::set_difference(secondElementVector.begin(), secondElementVector.end(), intersectingVector.begin(), intersectingVector.end(), secondElementVector.begin()), secondElementVector.end());
+        // If any of the element vectors are empty then there is a complete overlap somewhere because I check for all intersecting points and then erase them from the original
         if(firstElementVector.empty() && secondElementVector.empty()) {
             occurrences++;
         }

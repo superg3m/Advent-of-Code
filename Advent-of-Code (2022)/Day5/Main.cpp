@@ -6,6 +6,7 @@
 #include <vector>
 #include <map>
 #include <sstream>
+#include <algorithm>
 
 
 std::pair<std::vector<std::string>, std::vector<std::string>> readTextFile(std::ifstream& textFile);
@@ -126,15 +127,12 @@ void solution(std::map<int, std::string>& m, std::vector<std::string>& v) {
         std::string intersection2 = tempMap2[from].substr(0, amount);
 
         std::string moreCache = "";
-
-        //std::cout << "Before | " << intersection << "\n";
-        for(int i = intersection.length()-1; i >= 0; i--) {
-            moreCache += intersection[i];
-        }
-        //std::cout << "After | " << moreCache << "\n";
+        
+        // Reversing the string
+        std::reverse(intersection.begin(), intersection.end());
 
         tempMap[from].erase(0, amount);
-        tempMap[to].insert(0, moreCache);
+        tempMap[to].insert(0, intersection);
 
         tempMap2[from].erase(0, amount);
         tempMap2[to].insert(0, intersection2);

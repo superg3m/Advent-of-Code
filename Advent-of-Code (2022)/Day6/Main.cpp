@@ -78,12 +78,9 @@ void part2(std::string s) {
 int checkForOccurences(std::vector<char>& vec) {
     int occurences = 0;
     for(char c : vec) {
-        for(int i = 0; i < vec.size(); i++) {
-            if(c == vec[i]) occurences++;
-        }
+        occurences = std::count(vec.begin(), vec.end(), c);
         if(occurences > 1) break;
         occurences = 0;
     }
     return occurences;
 }
-
