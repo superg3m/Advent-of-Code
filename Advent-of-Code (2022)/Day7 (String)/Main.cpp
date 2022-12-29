@@ -4,17 +4,30 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
+#include <typeinfo>
+#include <variant>
 
-struct directoryStruct {
-    std::string name;
-    int totalSize;
-    int number_of_children;
-    std::vector<std::string> contains;
-};
+
 
 struct fileStruct {
     std::string name;
+    std::string Type = "file";
     int size;
+};
+
+class directoryStruct {
+    
+    public: 
+        std::string name;
+        std::string Type = "dir";
+        int totalSize;
+        int number_of_children;
+        std::vector<std::string> contains;
+
+        void addToContains(std::string T) {
+            contains.push_back(T);
+        }
+
 };
 
 // METHODS
@@ -41,6 +54,7 @@ int main() {
     }
 
     for(std::string s : fileData) {
+        //std::cout << s << "\n";
         //std::cout << splitLine(s).first << "\n"; 
         //std::cout << splitLine(s).second << "\n"; 
         if(splitLine(s).first == "$") executeCommand();
@@ -49,42 +63,29 @@ int main() {
             parseFileData();
         }
     }
-    bool firstPrint = true;
 
-    std::vector<std::string> temp = {"bsl", "fg", "gol", "rel"};
-    std::vector<directoryStruct> directoryVector;
-    directoryStruct dirObject;
-    dirObject.name = "a";
-    dirObject.contains = temp;
-    directoryVector.push_back(dirObject);
     
-    for(int i = 0; i < directoryVector.size(); i++) {
-        std::cout << "Name: " << directoryVector[i].name << "\n";
-        std::cout << "contains: {";
-        for(std::string s : directoryVector[i].contains) {
-            if(firstPrint) {
-                firstPrint = false;
-                std::cout << s;
-            }
-            else {
-                std::cout << ", ";
-                std::cout << s;
-            }
-            
-        }
-        std::cout << "}";
-    }
-    //std::map<std::string, std::vector<std::string>> directoryContents;
-    /*
+    /* RETHINK THIS WITH STRINGS KEEP TRACK OF ONLY A VECTER OF STRINGS 
+
+    MAP <NAME, CONTAINS> DIRECTORY
+    - Map<name, std::vector<std::string>> Directory
+
+    MAP <NAME, SIZE> FILE
+    - Map<name, int> File
+
+    a
+    - file.txt
+    - B DIR
+
+    std::map<std::string, std::vector<std::string>> directoryContents;
+
     Keep track of the directory with a string
 
     ROOT/a/s/d/f
     cd ..
     ROOT/a/s/d
-    Now all you have to do is keep track of what is in each individual Dir
-    */
-
-
+    Now all you have to do is keep track of what is in each individual Dir */
+    
     return 0;
 }
 
