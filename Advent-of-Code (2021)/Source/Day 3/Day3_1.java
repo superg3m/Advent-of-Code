@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Day3_1 {
 	public static void main(String[] args) {
-		File file = new File("C:\\Users\\superg3m\\eclipse-workspace\\AdventofCode (2021)\\src\\Day3.txt");
+		File file = new File("../../Resource/Day3.txt");
 		ArrayList<String> data = new ArrayList<String>();
 		String gamma = "";
 		String epsilon = "";

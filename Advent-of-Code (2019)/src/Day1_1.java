@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Day1_1 {
 	public static void main(String[] args) {
-		File file = new File("C:\\Users\\superg3m\\eclipse-workspace\\AdventofCode (2019)\\src\\Day 1");
+		File file = new File("Day 1.txt");
 		ArrayList<Integer> numList = new ArrayList<Integer>();
 		ArrayList<Integer> fuelRequirement = new ArrayList<Integer>();
 		try {

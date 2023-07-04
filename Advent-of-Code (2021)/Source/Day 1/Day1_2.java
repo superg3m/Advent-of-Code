@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Day1_2 {
 	public static void main (String[] args) {
-		File file = new File("C:\\Users\\superg3m\\eclipse-workspace\\AdventofCode (2021)\\src\\Day1.txt");
+		File file = new File("../../Resource/Day1.txt");
 		ArrayList<Integer> dataSet = new ArrayList<Integer>();
 		ArrayList<Integer> done = new ArrayList<Integer>();
 		int occur = 0;

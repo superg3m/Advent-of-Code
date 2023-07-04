@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Day2_2 {
     public static void main(String[] args) {
-        File file = new File("C:\\Users\\superg3m\\eclipse-workspace\\AdventofCode (2021)\\src\\Day2.txt");
+        File file = new File("../../Resource/Day2.txt");
 
         int xPos = 0;
         int yPos = 0;

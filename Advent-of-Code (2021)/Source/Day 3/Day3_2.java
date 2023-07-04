@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Day3_2 {
-	static File file = new File("C:\\Users\\superg3m\\eclipse-workspace\\AdventofCode (2021)\\src\\Day3.txt");
+	static File file = new File("../../Resource/Day3.txt");
 	static ArrayList<String> data = new ArrayList<String>();
 	static ArrayList<String> data2 = new ArrayList<String>();
 	static String current = "";

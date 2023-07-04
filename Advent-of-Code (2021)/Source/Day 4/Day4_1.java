@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class Day4_1 {
-	static File file = new File("C:\\Users\\superg3m\\eclipse-workspace\\AdventofCode (2021)\\src\\Day4.txt");
+	static File file = new File("../../Resource/Day4.txt");
 	static ArrayList<String> data = new ArrayList<String>();
 	static ArrayList<ArrayList<String>> board = new ArrayList<ArrayList<String>>();
 	static ArrayList<ArrayList<String>> placeHolder = new ArrayList<ArrayList<String>>();
