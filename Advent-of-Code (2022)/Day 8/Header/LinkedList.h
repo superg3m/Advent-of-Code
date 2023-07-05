@@ -8,14 +8,19 @@ typedef struct LinkedList
     Node *head;
     Node *tail;
     int size;
+    void (*appendNode)(LinkedList*, Node*);
+    Node* (*getNodeAt)(LinkedList*, int);
+    void (*popNode)(LinkedList*);
+    void (*printLinkedList)(LinkedList*);
+    void (*freeLinkedList)(LinkedList*);
 } LinkedList;
 
 
 LinkedList createLinkedList();
-Node* getNodeAt(LinkedList* list, int index);
-void appendNode(LinkedList* linkedList, Node* node);
-void popNode(LinkedList* list);
-void printLinkedList(LinkedList* list);
-void freeLinkedList(LinkedList* list);
+static void appendNode(LinkedList* linkedList, Node* node);
+static Node* getNodeAt(LinkedList* list, int index);
+static void popNode(LinkedList* list);
+static void printLinkedList(LinkedList* list);
+static void freeLinkedList(LinkedList* list);
 
 #endif

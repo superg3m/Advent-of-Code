@@ -19,7 +19,7 @@ int main() {
     std::vector<std::string> fileData;
     std::vector<std::pair<std::string, std::string>> dataPair;
     
-    myFile.open("Day3.txt");
+    myFile.open("../Day3.txt");
     if(!myFile.is_open()) std::cerr << "ERORR with file \n"; 
     else {
         fileData = readFile(myFile); 

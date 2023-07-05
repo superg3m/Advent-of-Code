@@ -4,6 +4,7 @@
         "stdio.h": "c",
         "node.h": "c",
         "vector.h": "c",
-        "genericvector.h": "c"
+        "genericvector.h": "c",
+        "linkedlist.h": "c"
     }
 }

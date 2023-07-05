@@ -12,7 +12,7 @@ int main() {
     std::ifstream myFile;
     std::vector<std::string> fileData;
     std::vector<int> elfData;
-    myFile.open("day1.txt");
+    myFile.open("../day1.txt");
     if(!myFile.is_open()) {
         std::cerr << "Error with the file \n";
         exit(0);

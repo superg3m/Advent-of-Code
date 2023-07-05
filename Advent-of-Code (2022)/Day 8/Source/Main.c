@@ -10,20 +10,25 @@ int main() {
 
     LinkedList list = createLinkedList();
 
-    appendNode(&list, &node1);
-    appendNode(&list, &node2);
-    appendNode(&list, &node3);
-    appendNode(&list, &node4);
+    list.appendNode(&list, &node1);
+    list.appendNode(&list, &node2);
+    list.appendNode(&list, &node3);
+    list.appendNode(&list, &node4);
 
-    printLinkedList(&list);
+    list.printLinkedList(&list);
 
     printf("\n");
 
     Vector vector = createVector(5, sizeof(Node));
 
-    push_back(&vector, &node4);
-    Node* returnNode = (Node*)vector.get(&vector, 0);
-    appendNode(&list, returnNode);
-    printLinkedList(&list);
+    vector.push_back(&vector, &node4);
+    vector.push_back(&vector, &node2);
+
+    Node* returnNode1 = (Node*)vector.get(&vector, 0);
+    Node* returnNode2 = (Node*)vector.get(&vector, 1);
+    
+    list.appendNode(&list, returnNode2);
+    list.appendNode(&list, returnNode1);
+    list.printLinkedList(&list);
     return 0;
 }

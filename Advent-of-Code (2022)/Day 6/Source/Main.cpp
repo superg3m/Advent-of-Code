@@ -13,8 +13,11 @@ int checkForOccurences(std::vector<char>& vec);
 
 int main() {
     std::ifstream textFile;
-    textFile.open("Day6.txt");
-
+    textFile.open("../Day6.txt");
+    if (!textFile.is_open()) {
+        std::cerr << "There is a problem with the file" << std::endl;
+        exit(0);
+    }
     std::string fileData;
     if(!textFile.is_open()) {
         std::cerr << "The file is not open \n";

@@ -25,7 +25,7 @@ int main() {
 
     std::vector<std::pair<int, int>> totalPoints;
 
-    myFile.open("Day2.txt");
+    myFile.open("../Day2.txt");
     if(!myFile.is_open()) std::cerr << "There is a problem with the file \n";
 
     fileData = readFile(myFile);

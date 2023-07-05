@@ -26,7 +26,7 @@ int main() {
     std::vector<std::pair<std::string, std::string>> assignmentPairOne;
     int lineNumber = 0;
     
-    myFile.open("Day4.txt");
+    myFile.open("../Day4.txt");
     if(!myFile.is_open()) std::cerr << "ERORR with file \n"; 
     else {
         fileData = readFile(myFile); 

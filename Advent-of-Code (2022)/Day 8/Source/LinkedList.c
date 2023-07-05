@@ -6,6 +6,11 @@ LinkedList createLinkedList()
     newList.size = 0;
     newList.head = NULL;
     newList.tail = NULL;
+    newList.appendNode = appendNode;
+    newList.getNodeAt = getNodeAt;
+    newList.popNode = popNode;
+    newList.printLinkedList = printLinkedList;
+    newList.freeLinkedList = freeLinkedList;
     return newList;
 }
 
@@ -30,34 +35,34 @@ void appendNode(LinkedList* linkedList, Node* node)
         linkedList->tail = node;
     } 
     else {
-        Node* currentNode = getNodeAt(linkedList, linkedList->size - 1);
+        Node* currentNode = linkedList->getNodeAt(linkedList, linkedList->size - 1);
         currentNode->nextNodeAddress = node;
         linkedList->tail = currentNode->nextNodeAddress;
     }
     linkedList->size++;
 }
 
-void popNode(LinkedList* list)
+void popNode(LinkedList* linkedList)
 {
-    Node* currentNode = getNodeAt(list, list->size - 2);
+    Node* currentNode = linkedList->getNodeAt(linkedList, linkedList->size - 2);
     currentNode->nextNodeAddress = NULL;
-    list->tail = currentNode;
-    list->size--;
+    linkedList->tail = currentNode;
+    linkedList->size--;
     return;
 }
 
-void printLinkedList(LinkedList* list)
+void printLinkedList(LinkedList* linkedList)
 {
     printf("----------- LINKED LIST -----------\n");
-    Node* currentNode = list->head;
-    for(int i = 0; i < list->size; i++) {
+    Node* currentNode = linkedList->head;
+    for(int i = 0; i < linkedList->size; i++) {
         printf("#%d | Height: %d | isVisable: %s\n", i + 1, currentNode->height, currentNode->isVisable ? "True" : "False");
         currentNode = currentNode->nextNodeAddress;
     }
     return;
 }
 
-void freeLinkedList(LinkedList* list)
+void freeLinkedList(LinkedList* linkedList)
 {
     // to be implemented
 

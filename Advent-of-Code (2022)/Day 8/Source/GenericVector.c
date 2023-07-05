@@ -5,7 +5,8 @@ Vector createVector(int capacity, size_t elementSize) {
     vector.capacity = capacity;
     vector.size = 0;
     vector.data = malloc(capacity * elementSize);
-    vector.get = getElement;
+    vector.push_back = push_back;
+    vector.get = get;
     vector.elementSize = elementSize;
     return vector;
 }
@@ -23,13 +24,13 @@ void push_back(Vector* vector, void* element) {
         destination[i] = source[i];
         for(int j = 0; j < 8; j++) {
            int bit = (destination[i] >> j) & 1;
-           printf("%d ", bit);
+           //printf("%d ", bit);
         }
-        printf("= %d\n" , destination[i]);
+        //printf("= %d\n" , destination[i]);
     }
 }
 
-void* getElement(Vector* vector, int index) {
+void* get(Vector* vector, int index) {
     void* destination = ((char*)vector->data + index * vector->elementSize);
     return destination;
 }

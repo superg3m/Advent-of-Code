@@ -12,12 +12,13 @@ typedef struct Vector {
     size_t elementSize;
     void* data;
     void* (*get)(struct Vector*, int);
+    void (*push_back)(struct Vector*, void*);
 } Vector;
 
 Vector createVector(int capacity, size_t elementSize);
 
-void push_back(Vector* vector, void* element);
+static void push_back(Vector* vector, void* element);
 
-void* getElement(Vector* vector, int index);
+static void* get(Vector* vector, int index);
 
 #endif

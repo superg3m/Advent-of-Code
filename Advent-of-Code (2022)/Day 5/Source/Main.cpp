@@ -18,7 +18,11 @@ void solution(std::map<int, std::string>& m, std::vector<std::string>& v);
 int main() {
     std::ifstream textFile;
     std::pair<std::vector<std::string>, std::vector<std::string>> vectorPair;
-    textFile.open("Day5.txt");
+    textFile.open("../Day5.txt");
+    if(!textFile.is_open()) {
+        std::cerr << "Error with the file \n";
+        exit(0);
+    }
 
     vectorPair = readTextFile(textFile);
 
