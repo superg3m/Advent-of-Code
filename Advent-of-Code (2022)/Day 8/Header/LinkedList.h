@@ -2,12 +2,13 @@
 #define LINKEDLIST_H
 
 #include "Node.h"
+#include <assert.h>
 
 typedef struct LinkedList
 {
+    int size;
     Node *head;
     Node *tail;
-    int size;
     void (*appendNode)(LinkedList*, Node*);
     Node* (*getNodeAt)(LinkedList*, int);
     void (*popNode)(LinkedList*);

@@ -2,15 +2,17 @@
 
 LinkedList createLinkedList() 
 {
-    LinkedList newList;
-    newList.size = 0;
-    newList.head = NULL;
-    newList.tail = NULL;
-    newList.appendNode = appendNode;
-    newList.getNodeAt = getNodeAt;
-    newList.popNode = popNode;
-    newList.printLinkedList = printLinkedList;
-    newList.freeLinkedList = freeLinkedList;
+    LinkedList newList = (LinkedList) {
+        .size            = 0,
+        .head            = NULL,
+        .tail            = NULL,
+        .appendNode      = appendNode,
+        .getNodeAt       = getNodeAt,
+        .popNode         = popNode,
+        .printLinkedList = printLinkedList,
+        .freeLinkedList  = freeLinkedList
+    };
+
     return newList;
 }
 
@@ -24,12 +26,16 @@ Node* getNodeAt(LinkedList* list, int index)
     for (int i = 0; i < index; i++) {
         currentNode = currentNode->nextNodeAddress;
     }
+
+    assert(currentNode != NULL);
+
     return currentNode;
 }
 
 
 void appendNode(LinkedList* linkedList, Node* node)
 {
+    assert(node != NULL);
     if (linkedList->head == NULL) {
         linkedList->head = node;
         linkedList->tail = node;

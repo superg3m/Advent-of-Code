@@ -1,17 +1,25 @@
 #include "../Header/GenericVector.h"
 
 Vector createVector(int capacity, size_t elementSize) {
-    Vector vector;
-    vector.capacity = capacity;
-    vector.size = 0;
-    vector.data = malloc(capacity * elementSize);
-    vector.push_back = push_back;
-    vector.get = get;
-    vector.elementSize = elementSize;
+    
+    Vector vector    = (Vector) {
+        .size        = 0,
+        .capacity    = capacity,
+        .elementSize = elementSize,
+        .data        = malloc(capacity * elementSize),
+        .get         = get,
+        .push_back   = push_back
+    };
+
+    assert(vector.data != NULL);
+
     return vector;
 }
 
 void push_back(Vector* vector, void* element) {
+
+    assert(element != NULL);
+
     vector->size++;
     if (vector->size > vector->capacity) {
         vector->capacity *= 2;
@@ -31,6 +39,14 @@ void push_back(Vector* vector, void* element) {
 }
 
 void* get(Vector* vector, int index) {
+    assert(vector->data != NULL);
+
+    assert_msg((index) >= 0, "Error: Index out of bounds (below zero)");
+
+    //assert(index > vector->size);
+    assert_msg(index < vector->size, "Error: Index out of bounds (exceeds vector size)");
+
     void* destination = ((char*)vector->data + index * vector->elementSize);
+    
     return destination;
 }

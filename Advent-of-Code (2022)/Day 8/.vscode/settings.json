@@ -5,6 +5,9 @@
         "node.h": "c",
         "vector.h": "c",
         "genericvector.h": "c",
-        "linkedlist.h": "c"
-    }
+        "linkedlist.h": "c",
+        "assert.h": "c",
+        "assert_message.h": "c"
+    },
+    "C_Cpp.errorSquiggles": "disabled"
 }

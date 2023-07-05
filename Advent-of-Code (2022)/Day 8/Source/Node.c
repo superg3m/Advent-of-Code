@@ -2,9 +2,11 @@
 
 Node createNode(int height, bool isVisable) 
 {
-    Node newNode;
-    newNode.height = height;
-    newNode.isVisable = isVisable;
-    newNode.nextNodeAddress = NULL;
-    return newNode;
+    Node node = (Node) {
+        .height = height,
+        .isVisable = isVisable,
+        .edges = NULL,
+        .nextNodeAddress = NULL,
+    };
+    return node;
 }
