@@ -2,17 +2,18 @@
 
 String createString(const char* initialData) {
     int length = strlen(initialData);
-    String string = (String) {
-        .data = (char*)malloc((length + 1) * sizeof(char)),
-        .length = length,
+    String string     = (String) {
+        .data         = (char*)malloc((length + 1) * sizeof(char)),
+        .length       = length,
         .appendString = appendString,
-        .freeString = freeString,
+        .appendChar   = appendChar,
+        .freeString   = freeString,
     };
     strcpy(string.data, initialData);
     return string;
 }
 
-String char_to_string(char* c) {
+String cstring_to_string(char* c) {
     String string = createString(c);
     return string;
 }
@@ -29,6 +30,12 @@ void appendString(String* string, const char* appendData) {
     string->data[string->length] = '\0';  // Null-terminate the string
 }
 
+void appendChar(String* string, const char appendData) {
+    string->data = (char*)realloc(string->data, (string->length + 2) * sizeof(char));
+    string->data[string->length] = appendData;
+    string->data[string->length + 1] = '\0';  // Null-terminate the string
+    string->length++;
+}
 
 void freeString(String* string) {
     free(string->data);

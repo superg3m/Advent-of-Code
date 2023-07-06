@@ -16,7 +16,9 @@
         "xlocale": "c",
         "vector": "c",
         "xutility": "c",
-        "atomic": "c"
+        "atomic": "c",
+        "stdbool.h": "c",
+        "filesystem": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

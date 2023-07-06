@@ -24,10 +24,7 @@ String getNextLine(FileFramework* fileFramework) {
     do {
         c = fgetc(fileFramework->file);
         if (c != '\n' && c != EOF) {
-            char charStr[2];
-            charStr[0] = c;
-            charStr[1] = '\0';
-            line.appendString(&line, charStr);
+            line.appendChar(&line, c);
         }
         if(c == EOF) {
             fileFramework->reachedEOF = true;

@@ -3,9 +3,9 @@
 
 #include "String.h"
 #include "Assert_Message.h"
+#include <stdbool.h>
 
-typedef struct FileFramework
-{
+typedef struct FileFramework {
     FILE* file;
     bool reachedEOF;
     const char* fileName;

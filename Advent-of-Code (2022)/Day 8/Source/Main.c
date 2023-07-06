@@ -17,6 +17,5 @@ int main() {
         printString(element);
         printf("\n");
     }
-
     return 0;
 }

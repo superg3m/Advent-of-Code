@@ -2,6 +2,7 @@
 #define ASSERT_MESSAGE_H
 
 #include <assert.h>
+#include <stdbool.h>
 
 #define assert_msg(Expression, Message) \
 do {                                    \
