@@ -7,7 +7,16 @@
         "genericvector.h": "c",
         "linkedlist.h": "c",
         "assert.h": "c",
-        "assert_message.h": "c"
+        "assert_message.h": "c",
+        "stdlib.h": "c",
+        "fileframework.h": "c",
+        "string.h": "c",
+        "nodevector.h": "c",
+        "xstring": "c",
+        "xlocale": "c",
+        "vector": "c",
+        "xutility": "c",
+        "atomic": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

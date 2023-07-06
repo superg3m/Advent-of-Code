@@ -1,9 +1,6 @@
 #ifndef GENERIC_VECTOR_H
 #define GENERIC_VECTOR_H
 
-#include <stddef.h>
-#include <stdlib.h>
-#include <string.h>
 #include "Assert_Message.h"
 #include <stdio.h>
 
