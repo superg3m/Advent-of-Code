@@ -18,7 +18,7 @@ Vector createVector(int capacity, size_t elementSize) {
 
 void push_back(Vector* vector, void* element) {
 
-    assert(element != NULL);
+    assert_msg(element != NULL, "Element being pushed back is NULL");
 
     vector->size++;
     if (vector->size > vector->capacity) {

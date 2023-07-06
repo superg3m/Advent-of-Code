@@ -27,7 +27,7 @@ Node* getNodeAt(LinkedList* list, int index)
         currentNode = currentNode->nextNodeAddress;
     }
 
-    assert(currentNode != NULL);
+    assert_msg(currentNode != NULL, "LinkedList return node is NULL");
 
     return currentNode;
 }
@@ -35,7 +35,7 @@ Node* getNodeAt(LinkedList* list, int index)
 
 void appendNode(LinkedList* linkedList, Node* node)
 {
-    assert(node != NULL);
+    assert_msg(node != NULL, "Appended node is NULL");
     if (linkedList->head == NULL) {
         linkedList->head = node;
         linkedList->tail = node;
