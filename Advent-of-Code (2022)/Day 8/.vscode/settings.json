@@ -18,7 +18,12 @@
         "xutility": "c",
         "atomic": "c",
         "stdbool.h": "c",
-        "filesystem": "c"
+        "filesystem": "c",
+        "print_color": "c",
+        "format": "c",
+        "initializer_list": "c",
+        "list": "c",
+        "type_traits": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

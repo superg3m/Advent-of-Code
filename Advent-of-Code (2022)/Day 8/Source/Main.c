@@ -1,5 +1,6 @@
 #include "../Header/Main.h"
 
+
 int main() {
     
     FileFramework fileFramework = createFileFramework("../Day8.txt");
@@ -12,10 +13,26 @@ int main() {
         stringVector.push_back(&stringVector, &line);
     }
 
+    Vector parentVector = createVector(stringVector.size, sizeof(Vector));
     for(int i = 0; i < stringVector.size; i++) {
+        Vector nodeVector;
         String* element = (String*)stringVector.get(&stringVector, i);
-        printString(element);
-        printf("\n");
+        nodeVector = createVector(element->length, sizeof(Node));
+        for(int j = 0; j < element->length; j++) {
+            Node node;
+            
+            int charNumber = (element->data[j] - '0');
+            if(i == 0 || i == stringVector.size - 1  || j == 0 || j == element->length - 1) {
+                node = createNode(charNumber, true);
+            } else {
+                node = createNode(charNumber, false);
+            }
+            nodeVector.push_back(&nodeVector, &node);
+        }
+        parentVector.push_back(&parentVector, &nodeVector);
     }
+
+    checkNodeDirection(&parentVector, 5, 5);    
+
     return 0;
 }
