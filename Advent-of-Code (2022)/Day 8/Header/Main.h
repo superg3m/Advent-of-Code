@@ -36,14 +36,13 @@ void checkNodeDirection(Vector* parentVector, int rowLength, int columnLength) {
                     setColor(BACKGROUND_BLUE);  // Blue text on white background
                 } else if ((i == row + 1 && j == column) || (i == row && j == column + 1) ||
                            (i == row - 1 && j == column) || (i == row && j == column - 1)) {
-                    setColor(FOREGROUND_RED | FOREGROUND_GREEN | BACKGROUND_GREEN);  // Yellow text on white background
+                    setColor(FOREGROUND_RED | FOREGROUND_GREEN | BACKGROUND_BLUE | BACKGROUND_RED | BACKGROUND_GREEN);  // Yellow text on white background
                 } else {
                     setColor(currentNode->isVisable ? FOREGROUND_GREEN : FOREGROUND_RED);  // Green or Red text color
                 }
 
                 printf("%d ", currentNode->height);
             }
-
             printf("\n");
         }
 
