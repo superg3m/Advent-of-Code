@@ -14,8 +14,8 @@ int main() {
     }
 
     Vector parentVector = createVector(stringVector.size, sizeof(Vector));
+    Vector nodeVector;
     for(int i = 0; i < stringVector.size; i++) {
-        Vector nodeVector;
         String* element = (String*)stringVector.get(&stringVector, i);
         nodeVector = createVector(element->length, sizeof(Node));
         for(int j = 0; j < element->length; j++) {
@@ -31,8 +31,8 @@ int main() {
         }
         parentVector.push_back(&parentVector, &nodeVector);
     }
-
-    checkNodeDirection(&parentVector, 5, 5);    
+    
+    checkNodeDirection(&parentVector, parentVector.size, ((Vector*)parentVector.get(&parentVector, 0))->size);   
 
     return 0;
 }

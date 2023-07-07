@@ -41,9 +41,8 @@ void push_back(Vector* vector, void* element) {
 void* get(Vector* vector, int index) {
     assert(vector->data != NULL);
 
-    assert_msg((index) >= 0, "Error: Index out of bounds (below zero)");
+    assert_msg((index) >= 0, "Error: Index out of bounds: (below zero)");
 
-    //assert(index > vector->size);
     assert_msg(index < vector->size, "Error: Index out of bounds (exceeds vector size)");
 
     void* destination = ((char*)vector->data + index * vector->elementSize);
