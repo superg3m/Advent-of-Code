@@ -1,6 +1,5 @@
 #include <Windows.h>
 #include <stdio.h>
-#include <string.h>
 
 #include "Node.h"
 #include "NodeVector.h"
@@ -24,7 +23,7 @@ void checkNodeDirection(Vector* parentVector, int rowLength, int columnLength) {
     printf("\033[?25l");  // Hide cursor
 
     while (counter < totalNodes) {
-        Sleep(100);
+        Sleep(250);
         system("cls");  // Clear console screen once before printing
         for (int i = 0; i < rowLength; i++) {
             Vector* currentVector = (Vector*)parentVector->get(parentVector, i);

@@ -3,8 +3,11 @@
 
 int main() {
     
+    test_vector_operations();
+    Sleep(1000);
     FileFramework fileFramework = createFileFramework("../Day8.txt");
     fileFramework.openFile(&fileFramework);
+    
 
     Vector stringVector = createVector(5, sizeof(String));
 
@@ -31,7 +34,7 @@ int main() {
         }
         parentVector.push_back(&parentVector, &nodeVector);
     }
-    
+
     checkNodeDirection(&parentVector, parentVector.size, ((Vector*)parentVector.get(&parentVector, 0))->size);   
 
     return 0;
