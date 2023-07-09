@@ -26,7 +26,7 @@ int main() {
             
             int charNumber = (element->data[j] - '0');
             if(i == 0 || i == stringVector.size - 1  || j == 0 || j == element->length - 1) {
-                node = createNode(charNumber, true);
+                node = createNode(charNumber, false);
             } else {
                 node = createNode(charNumber, false);
             }
@@ -34,8 +34,8 @@ int main() {
         }
         parentVector.push_back(&parentVector, &nodeVector);
     }
-
-    checkNodeDirection(&parentVector, parentVector.size, ((Vector*)parentVector.get(&parentVector, 0))->size);   
+    calculateVisibility(&parentVector, parentVector.size, ((Vector*)parentVector.get(&parentVector, 0))->size);
+    //checkerAnimation(&parentVector, parentVector.size, ((Vector*)parentVector.get(&parentVector, 0))->size);   
 
     return 0;
 }

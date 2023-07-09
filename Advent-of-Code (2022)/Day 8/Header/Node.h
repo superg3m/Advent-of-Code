@@ -12,7 +12,7 @@ typedef struct Node
 {
     int height;
     bool isVisable;
-    struct Node* edges[4];
+    struct Node* adjacentNodes[4];
     struct Node* nextNodeAddress;
 } Node;
 

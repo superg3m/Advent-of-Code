@@ -47,6 +47,8 @@ void* get(Vector* vector, int index) {
     assert_msg(index < vector->size, "Error: Index out of bounds (exceeds vector size)");
 
     void* destination = ((char*)vector->data + index * vector->elementSize);
+
+    assert(destination != NULL);
     
     return destination;
 }

@@ -3,6 +3,7 @@
 
 #include "Assert_Message.h"
 #include <stdio.h>
+#include <cstring>
 #include <string.h>
 
 typedef struct Vector {
