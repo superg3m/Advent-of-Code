@@ -134,8 +134,8 @@ void checkerAnimation(Vector* parentVector, int rowLength, int columnLength) {
 
     printf("\033[?25l");  // Hide cursor
 
-    while (counter < 1) {
-        Sleep(250);
+    while (counter < totalNodes) {
+        //Sleep(250);
         system("cls");  // Clear console screen once before printing
         for (int i = 0; i < rowLength; i++) {
             Vector* currentVector = (Vector*)parentVector->get(parentVector, i);
@@ -144,12 +144,12 @@ void checkerAnimation(Vector* parentVector, int rowLength, int columnLength) {
                 Node* currentNode = (Node*)currentVector->get(currentVector, j);
 
                 if (i == row && j == column) {
-                    setColor(currentNode->isVisable ? FOREGROUND_GREEN : FOREGROUND_RED);  // Green or Red text color
-                    //setColor(BACKGROUND_BLUE);  // Blue text on white background
+                    //setColor(currentNode->isVisable ? FOREGROUND_GREEN : FOREGROUND_RED);  // Green or Red text color
+                    setColor(BACKGROUND_BLUE);  // Blue text on white background
                 } else if ((i == row + 1 && j == column) || (i == row && j == column + 1) ||
                            (i == row - 1 && j == column) || (i == row && j == column - 1)) {
-                    setColor(currentNode->isVisable ? FOREGROUND_GREEN : FOREGROUND_RED);
-                    //setColor(BACKGROUND_BLUE | BACKGROUND_RED | BACKGROUND_GREEN);  // Yellow text on white background
+                    //setColor(currentNode->isVisable ? FOREGROUND_GREEN : FOREGROUND_RED);
+                    setColor(BACKGROUND_BLUE | BACKGROUND_RED | BACKGROUND_GREEN);  // Yellow text on white background
                 } else {
                     setColor(currentNode->isVisable ? FOREGROUND_GREEN : FOREGROUND_RED);  // Green or Red text color
                 }

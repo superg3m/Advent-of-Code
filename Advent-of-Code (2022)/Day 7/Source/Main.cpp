@@ -81,7 +81,7 @@ std::tuple<std::string, std::string, std::string, std::string> splitLine(const s
 void executeLine(Directory *&currentDirectory, std::stack<Directory> &directoryStack, std::stack<File> &fileStack, const std::string &line)
 {
     auto [commandTag, command, name, size] = splitLine(line);
-
+    
     if (command == "dir" && !name.empty())
     {
         Directory tempDirectory(name);

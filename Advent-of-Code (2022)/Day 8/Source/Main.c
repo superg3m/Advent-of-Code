@@ -35,7 +35,7 @@ int main() {
         parentVector.push_back(&parentVector, &nodeVector);
     }
     calculateVisibility(&parentVector, parentVector.size, ((Vector*)parentVector.get(&parentVector, 0))->size);
-    //checkerAnimation(&parentVector, parentVector.size, ((Vector*)parentVector.get(&parentVector, 0))->size);   
+    checkerAnimation(&parentVector, parentVector.size, ((Vector*)parentVector.get(&parentVector, 0))->size);   
 
     return 0;
 }
