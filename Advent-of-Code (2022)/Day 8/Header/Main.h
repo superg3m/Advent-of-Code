@@ -1,173 +1,194 @@
 #include <Windows.h>
 #include <stdio.h>
-#include "Node.h"
-#include "FileFramework.h"
+
 #include "Color.h"
+#include "FileFramework.h"
 #include "GenericVector.h"
 #include "LinkedList.h"
+#include "Node.h"
 #include "String.h"
 
 void setColor(int color) {
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-    SetConsoleTextAttribute(hConsole, color);
+  HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+  SetConsoleTextAttribute(hConsole, color);
 }
 
-void calculateAdjacentNodes(Node* currentNode, Vector* parentVector, int i, int j) {
-    int rowLength = parentVector->size;
-    int columnLength = ((Vector*)parentVector->get(parentVector, 0))->size;
+void calculateAdjacentNodes(Node* currentNode, Vector* parentVector, int i,
+                            int j) {
+  int rowLength = parentVector->size;
+  int columnLength = ((Vector*)parentVector->get(parentVector, 0))->size;
 
-    Node* northNode = NULL;
-    Node* eastNode = NULL;
-    Node* southNode = NULL;
-    Node* westNode = NULL;
-    
-    if (i - 1 >= 0) {
-        //printf("northNode INDEX: %d\n", row - 1);
-        Vector* rowVector = (Vector*)parentVector->get(parentVector, i - 1);
-        northNode = (Node*)rowVector->get(rowVector, j);
-    }
+  Node* northNode = NULL;
+  Node* eastNode = NULL;
+  Node* southNode = NULL;
+  Node* westNode = NULL;
 
-    if (j + 1 < columnLength) {
-        //printf("eastNode INDEX: %d\n", column + 1);
-        Vector* rowVector = (Vector*)parentVector->get(parentVector, i);
-        eastNode = (Node*)rowVector->get(rowVector, j + 1);
-    }
+  if (i - 1 >= 0) {
+    // printf("northNode INDEX: %d\n", row - 1);
+    Vector* rowVector = (Vector*)parentVector->get(parentVector, i - 1);
+    northNode = (Node*)rowVector->get(rowVector, j);
+  }
 
-    if (i + 1 < rowLength) {
-        //printf("southNode INDEX: %d\n", row + 1);
-        Vector* rowVector = (Vector*)parentVector->get(parentVector, i + 1);
-        southNode = (Node*)rowVector->get(rowVector, j);
-    }
+  if (j + 1 < columnLength) {
+    // printf("eastNode INDEX: %d\n", column + 1);
+    Vector* rowVector = (Vector*)parentVector->get(parentVector, i);
+    eastNode = (Node*)rowVector->get(rowVector, j + 1);
+  }
 
-    if (j - 1 >= 0) {
-        //printf("westNode INDEX: %d\n", column - 1);
-        Vector* rowVector = (Vector*)parentVector->get(parentVector, i);
-        westNode = (Node*)rowVector->get(rowVector, j - 1);
-    }
-    /*
-    printf("Current Node: %d[%d][%d]\n", currentNode->height, i, j);
-    if (northNode != NULL) {
-        printf("North Node: %d\n", northNode->height);
-    } else {
-        printf("North Node: NULL\n");
-    }
+  if (i + 1 < rowLength) {
+    // printf("southNode INDEX: %d\n", row + 1);
+    Vector* rowVector = (Vector*)parentVector->get(parentVector, i + 1);
+    southNode = (Node*)rowVector->get(rowVector, j);
+  }
 
-    if (eastNode != NULL) {
-        printf("East Node: %d\n", eastNode->height);
-    } else {
-        printf("East Node: NULL\n");
-    }
+  if (j - 1 >= 0) {
+    // printf("westNode INDEX: %d\n", column - 1);
+    Vector* rowVector = (Vector*)parentVector->get(parentVector, i);
+    westNode = (Node*)rowVector->get(rowVector, j - 1);
+  }
+  /*
+  printf("Current Node: %d[%d][%d]\n", currentNode->height, i, j);
+  if (northNode != NULL) {
+      printf("North Node: %d\n", northNode->height);
+  } else {
+      printf("North Node: NULL\n");
+  }
 
-    if (southNode != NULL) {
-        printf("South Node: %d\n", southNode->height);
-    } else {
-        printf("South Node: NULL\n");
-    }
+  if (eastNode != NULL) {
+      printf("East Node: %d\n", eastNode->height);
+  } else {
+      printf("East Node: NULL\n");
+  }
 
-    if (westNode != NULL) {
-        printf("West Node: %d\n", westNode->height);
-    } else {
-        printf("West Node: NULL\n");
-    }
-    printf("\n");
-    */
-    currentNode->adjacentNodes[0] = northNode;
-    currentNode->adjacentNodes[1] = eastNode;
-    currentNode->adjacentNodes[2] = southNode;
-    currentNode->adjacentNodes[3] = westNode;
+  if (southNode != NULL) {
+      printf("South Node: %d\n", southNode->height);
+  } else {
+      printf("South Node: NULL\n");
+  }
+
+  if (westNode != NULL) {
+      printf("West Node: %d\n", westNode->height);
+  } else {
+      printf("West Node: NULL\n");
+  }
+  printf("\n");
+  */
+  currentNode->adjacentNodes[0] = northNode;
+  currentNode->adjacentNodes[1] = eastNode;
+  currentNode->adjacentNodes[2] = southNode;
+  currentNode->adjacentNodes[3] = westNode;
 }
 
-void calculateVisibility(Vector* parentVector, int rowLength, int columnLength) {
-    int count = 0;
-    for (int i = 0; i < rowLength; i++) {
-        Vector* rowVector = (Vector*)parentVector->get(parentVector, i);
-        for (int j = 0; j < columnLength; j++) {
-            Node* currentNode = (Node*)rowVector->get(rowVector, j);
-            assert(currentNode != NULL);
-            calculateAdjacentNodes(currentNode, parentVector, i, j);
-            
-            currentNode->isVisable = false;  // Assume the current node is not visible
+void calculateVisibility(Vector* parentVector, int rowLength,
+                         int columnLength) {
+  int count = 0;
+  for (int i = 0; i < rowLength; i++) {
+    Vector* rowVector = (Vector*)parentVector->get(parentVector, i);
+    for (int j = 0; j < columnLength; j++) {
+      Node* currentNode = (Node*)rowVector->get(rowVector, j);
+      assert(currentNode != NULL);
+      calculateAdjacentNodes(currentNode, parentVector, i, j);
 
-            for (int k = 0; k < 4; k++) {
-                if (currentNode->adjacentNodes[k] != NULL) {
-                    if (currentNode->height < currentNode->adjacentNodes[k]->height){
-                        currentNode->isVisable = false;
-                        //printf("Current Node Height: %d | isVisable = %s | Index: [%d][%d] | currentNode->adjacentNodes[%d]->height: %d\n", currentNode->height, currentNode->isVisable ? "True" : "False", i, j, k, currentNode->adjacentNodes[k]->height);
-                        break;
-                    } else if (currentNode->height >= currentNode->adjacentNodes[k]->height) {
-                        currentNode->isVisable = true;
-                    } 
-                }
-            }
-            for (int k = 0; k < 4; k++) {
-                if (currentNode->adjacentNodes[k] == NULL) {
-                    currentNode->isVisable = true;
-                    count++;
-                }
-            }
+      currentNode->isVisable = false;  // Assume the current node is not visible
 
-            //printf("FINAL | Current Node Height: %d | isVisable = %s | Index: [%d][%d]\n", currentNode->height, currentNode->isVisable ? "True" : "False", i, j);
-            if (currentNode->isVisable) {
-                
-            }
+      for (int k = 0; k < 4; k++) {
+        if (currentNode->adjacentNodes[k] != NULL) {
+          if (currentNode->height < currentNode->adjacentNodes[k]->height) {
+            currentNode->isVisable = false;
+            // printf("Current Node Height: %d | isVisable = %s |
+            // Index:
+            // [%d][%d] | currentNode->adjacentNodes[%d]->height:
+            // %d\n", currentNode->height, currentNode->isVisable ?
+            // "True" : "False", i, j, k,
+            // currentNode->adjacentNodes[k]->height);
+            break;
+          } else if (currentNode->height >=
+                     currentNode->adjacentNodes[k]->height) {
+            currentNode->isVisable = true;
+          }
         }
-        //printf("\n");
+      }
+      for (int k = 0; k < 4; k++) {
+        if (currentNode->adjacentNodes[k] == NULL) {
+          currentNode->isVisable = true;
+          count++;
+        }
+      }
+
+      // printf("FINAL | Current Node Height: %d | isVisable = %s | Index:
+      // [%d][%d]\n", currentNode->height, currentNode->isVisable ? "True"
+      // : "False", i, j);
+      if (currentNode->isVisable) {
+      }
     }
-    printf("Count: %d\n", count);
+    // printf("\n");
+  }
+  printf("Count: %d\n", count);
 }
 
-// RULES 
+// RULES
 // 1. If the current node is the highest node in the row, it is visible
 // 2. If the current node is the lowest node in the row, it is not visable
 // 3. If the current node is the highest node in the column, it is visible
 // 4. If the current node is the lowest node in the column, it is not visable
 // 5. If the current node is surrounded by higher nodes, it is not visable
-// 6. If the current node is surrounded by lower nodes I need to do recursion to check the nodes that are surrounding the current node if the recusion reaches the edge of the map, the current node is visable otherwise it is not visable
-// 7. After performing rule 6 save the direction in which the node is visable do this in an array of bools North, East, South, West
+// 6. If the current node is surrounded by lower nodes I need to do recursion to
+// check the nodes that are surrounding the current node if the recusion reaches
+// the edge of the map, the current node is visable otherwise it is not visable
+// 7. After performing rule 6 save the direction in which the node is visable do
+// this in an array of bools North, East, South, West
 
 void checkerAnimation(Vector* parentVector, int rowLength, int columnLength) {
-    int row = 0;
-    int column = 0;
+  int row = 0;
+  int column = 0;
 
-    int counter = 0;
-    int totalNodes = rowLength * columnLength;
+  int counter = 0;
+  int totalNodes = rowLength * columnLength;
 
-    printf("\033[?25l");  // Hide cursor
+  printf("\033[?25l");  // Hide cursor
 
-    while (counter < totalNodes) {
-        //Sleep(250);
-        system("cls");  // Clear console screen once before printing
-        for (int i = 0; i < rowLength; i++) {
-            Vector* currentVector = (Vector*)parentVector->get(parentVector, i);
+  while (counter < totalNodes) {
+    // Sleep(250);
+    system("cls");  // Clear console screen once before printing
+    for (int i = 0; i < rowLength; i++) {
+      Vector* currentVector = (Vector*)parentVector->get(parentVector, i);
 
-            for (int j = 0; j < columnLength; j++) {
-                Node* currentNode = (Node*)currentVector->get(currentVector, j);
+      for (int j = 0; j < columnLength; j++) {
+        Node* currentNode = (Node*)currentVector->get(currentVector, j);
 
-                if (i == row && j == column) {
-                    //setColor(currentNode->isVisable ? FOREGROUND_GREEN : FOREGROUND_RED);  // Green or Red text color
-                    setColor(BACKGROUND_BLUE);  // Blue text on white background
-                } else if ((i == row + 1 && j == column) || (i == row && j == column + 1) ||
-                           (i == row - 1 && j == column) || (i == row && j == column - 1)) {
-                    //setColor(currentNode->isVisable ? FOREGROUND_GREEN : FOREGROUND_RED);
-                    setColor(BACKGROUND_BLUE | BACKGROUND_RED | BACKGROUND_GREEN);  // Yellow text on white background
-                } else {
-                    setColor(currentNode->isVisable ? FOREGROUND_GREEN : FOREGROUND_RED);  // Green or Red text color
-                }
-
-                printf("%d ", currentNode->height);
-            }
-            printf("\n");
-        }
-
-        setColor(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);  // Reset text color to white
-
-        if (column == columnLength - 1) {
-            column = 0;
-            row++;
+        if (i == row && j == column) {
+          // setColor(currentNode->isVisable ? FOREGROUND_GREEN :
+          // FOREGROUND_RED);  // Green or Red text color
+          setColor(BACKGROUND_BLUE);  // Blue text on white background
+        } else if ((i == row + 1 && j == column) ||
+                   (i == row && j == column + 1) ||
+                   (i == row - 1 && j == column) ||
+                   (i == row && j == column - 1)) {
+          // setColor(currentNode->isVisable ? FOREGROUND_GREEN :
+          // FOREGROUND_RED);
+          setColor(BACKGROUND_BLUE | BACKGROUND_RED |
+                   BACKGROUND_GREEN);  // Yellow text on white background
         } else {
-            column++;
+          setColor(currentNode->isVisable
+                       ? FOREGROUND_GREEN
+                       : FOREGROUND_RED);  // Green or Red text color
         }
-        counter++;
+
+        printf("%d ", currentNode->height);
+      }
+      printf("\n");
     }
-    printf("\033[?25h");  // Show cursor
+
+    setColor(FOREGROUND_RED | FOREGROUND_GREEN |
+             FOREGROUND_BLUE);  // Reset text color to white
+
+    if (column == columnLength - 1) {
+      column = 0;
+      row++;
+    } else {
+      column++;
+    }
+    counter++;
+  }
+  printf("\033[?25h");  // Show cursor
 }

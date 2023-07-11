@@ -1,18 +1,17 @@
 #ifndef STRING_H
 #define STRING_H
 
-#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef struct String {
-    char* data;
-    int length;
-    void (*appendString)(struct String*, const char*);
-    void (*appendChar)(String*, const char);
-    void (*freeString)(struct String*);
+  char* data;
+  int length;
+  void (*appendString)(struct String*, const char*);
+  void (*appendChar)(String*, const char);
+  void (*freeString)(struct String*);
 } String;
-
 
 String createString(const char* initialData);
 

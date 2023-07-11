@@ -1,21 +1,19 @@
 #ifndef LINKEDLIST_H
 #define LINKEDLIST_H
 
-#include "Node.h"
 #include "Assert_Message.h"
+#include "Node.h"
 
-typedef struct LinkedList
-{
-    int size;
-    Node *head;
-    Node *tail;
-    void (*appendNode)(LinkedList*, Node*);
-    Node* (*getNodeAt)(LinkedList*, int);
-    void (*popNode)(LinkedList*);
-    void (*printLinkedList)(LinkedList*);
-    void (*freeLinkedList)(LinkedList*);
+typedef struct LinkedList {
+  int size;
+  Node* head;
+  Node* tail;
+  void (*appendNode)(LinkedList*, Node*);
+  Node* (*getNodeAt)(LinkedList*, int);
+  void (*popNode)(LinkedList*);
+  void (*printLinkedList)(LinkedList*);
+  void (*freeLinkedList)(LinkedList*);
 } LinkedList;
-
 
 LinkedList createLinkedList();
 static void appendNode(LinkedList* linkedList, Node* node);

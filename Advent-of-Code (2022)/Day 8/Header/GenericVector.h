@@ -1,19 +1,21 @@
 #ifndef GENERIC_VECTOR_H
 #define GENERIC_VECTOR_H
 
-#include "Assert_Message.h"
 #include <stdio.h>
-#include <cstring>
 #include <string.h>
 
+#include <cstring>
+
+#include "Assert_Message.h"
+
 typedef struct Vector {
-    int size;
-    int capacity;
-    size_t elementSize;
-    void* data;
-    void* (*get)(struct Vector*, int);
-    void (*push_back)(struct Vector*, void*);
-    void* (*pop)(struct Vector*);
+  int size;
+  int capacity;
+  size_t elementSize;
+  void* data;
+  void* (*get)(struct Vector*, int);
+  void (*push_back)(struct Vector*, void*);
+  void* (*pop)(struct Vector*);
 } Vector;
 
 Vector createVector(int capacity, size_t elementSize);
