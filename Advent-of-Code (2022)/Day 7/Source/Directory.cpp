@@ -1,5 +1,9 @@
 #include "../Header/Directory.h"
+
 long Directory::partOneTotal = 0;
+
+long Directory::rootSize = 0;
+
 std::vector<long> Directory::partTwoDirectorySizes{};
 Directory::Directory(const std::string &name)
 {
@@ -13,11 +17,14 @@ Directory::Directory(const std::string &name)
 
 Directory::~Directory()
 {
-    for (Directory *subDir : subDirectories)
+    for(File* file : this->files) {
+        delete file;
+    }
+    this->files.clear();
+    for (Directory* subDir : subDirectories)
     {
         delete subDir;
     }
-
     return;
 }
 
@@ -28,11 +35,10 @@ void Directory::addSubdirectory(Directory *dir)
     return;
 }
 
-void Directory::addFile(File file)
+void Directory::addFile(File* file)
 {
+    this->totalSize += file->size;
     this->files.push_back(file);
-    totalSize += file.size;
-
     return;
 }
 
@@ -44,7 +50,7 @@ void Directory::calculateDirectorySize(Directory *dir)
     }
     this->totalSize = dir->totalSize;
     // std::cout << this->name << " (size: " << this->totalSize << ")\n";
-    for (Directory *subDir : dir->subDirectories)
+    for (Directory* subDir : dir->subDirectories)
     {
         subDir->calculateDirectorySize(subDir);
         this->totalSize += subDir->totalSize;
@@ -54,7 +60,7 @@ void Directory::calculateDirectorySize(Directory *dir)
     return;
 }
 
-Directory *Directory::getSubDirectoy(const std::string &name)
+Directory* Directory::getSubDirectoy(const std::string &name)
 {
     for (Directory *subDir : this->subDirectories)
     {
@@ -67,7 +73,7 @@ Directory *Directory::getSubDirectoy(const std::string &name)
     return nullptr;
 }
 
-Directory *&Directory::getParentDirectory()
+Directory* Directory::getParentDirectory()
 {
     return this->parentDirectory;
 }
@@ -83,13 +89,14 @@ void Directory::printDirectoryTree(int depth)
     {
         Directory::partOneTotal += this->totalSize;
     }
-    if (this->totalSize >= 9199225)
+    if (this->totalSize >= 30000000 -  (70000000 - Directory::rootSize))
     {
+        
         Directory::partTwoDirectorySizes.push_back(this->totalSize);
     }
-    for (File file : this->files)
+    for (File *file : this->files)
     {
-        std::cout << fileIndent << "- File: " << file.name << "\n";
+        std::cout << fileIndent << "- File: " << file->name << "\n";
     }
     for (Directory *subDir : this->subDirectories)
     {

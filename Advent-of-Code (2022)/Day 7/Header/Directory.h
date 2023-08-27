@@ -13,8 +13,9 @@ public:
     std::string name;
     long totalSize;
     static long partOneTotal;
+    static long rootSize;
     
-    std::vector<File> files;
+    std::vector<File*> files;
     std::vector<Directory*> subDirectories;
     static std::vector<long> partTwoDirectorySizes;
 
@@ -23,16 +24,15 @@ public:
 
     void addSubdirectory(Directory *dir);
 
-    void addFile(File file);
+    void addFile(File* file);
 
     void calculateDirectorySize(Directory *dir = nullptr);
     
-    Directory *getSubDirectoy(const std::string &name);
+    Directory* getSubDirectoy(const std::string &name);
 
-    Directory* &getParentDirectory();
+    Directory* getParentDirectory();
 
     void printDirectoryTree(int depth = 0);
 private:
-    Directory *parentDirectory;
-
+    Directory* parentDirectory;
 };

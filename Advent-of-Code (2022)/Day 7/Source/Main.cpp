@@ -1,6 +1,6 @@
 #include "../Header/Main.h"
 
-Directory *findRootDirectory(Directory *&currentDirectory)
+Directory* findRootDirectory(Directory *currentDirectory)
 {
     if (currentDirectory->getParentDirectory() == nullptr)
     {
@@ -24,19 +24,22 @@ int main()
     }
 
     std::stack<File> fileStack;
-    std::stack<Directory> directoryStack;
-    Directory root("/");
-    directoryStack.push(root);
-    Directory *currentDirectory = &directoryStack.top();
+
+    Directory* root = new Directory("/");
+
+    Directory* currentDirectory = root;
 
     for (std::string line : textFileData)
     {
-        executeLine(currentDirectory, directoryStack, fileStack, line);
+        executeLine(currentDirectory, line);
     }
 
     currentDirectory = findRootDirectory(currentDirectory);
 
     currentDirectory->calculateDirectorySize();
+
+    currentDirectory->rootSize = currentDirectory->totalSize;
+
     currentDirectory->printDirectoryTree();
 
     std::sort(Directory::partTwoDirectorySizes.begin(), Directory::partTwoDirectorySizes.end());
@@ -78,20 +81,24 @@ std::tuple<std::string, std::string, std::string, std::string> splitLine(const s
     return {commandTag, command, name, size};
 }
 
-void executeLine(Directory *&currentDirectory, std::stack<Directory> &directoryStack, std::stack<File> &fileStack, const std::string &line)
+void executeLine(Directory* &currentDirectory, const std::string &line)
 {
     auto [commandTag, command, name, size] = splitLine(line);
     
-    if (command == "dir" && !name.empty())
-    {
-        Directory tempDirectory(name);
-        directoryStack.push(tempDirectory);
-        currentDirectory->addSubdirectory(&directoryStack.top());
+    if (command == "dir" && !name.empty()) {
+        Directory* tempDirectory = new Directory(name);
+        currentDirectory->addSubdirectory(tempDirectory);
+    } else if (std::isdigit(size[0])) {
+        File* tempFile = new File(name, stoi(size));
+        currentDirectory->addFile(tempFile);
     }
-    else if (std::isdigit(size[0]))
-    {
-        File tempFile(name, stoi(size));
-        fileStack.push(tempFile);
-        currentDirectory->addFile(fileStack.top());
-    }
-if (command == "cd" && name == "..") { currentDirectory = currentDirectory->getParentDirectory(); } else if (command == "cd") { if (name != "/") { currentDirectory = currentDirectory->getSubDirectoy(name); } } }
+
+    if (command == "cd" && name == "..") { 
+        currentDirectory = currentDirectory->getParentDirectory(); 
+    } else if (command == "cd") { 
+        if (name != "/") 
+        { 
+            currentDirectory = currentDirectory->getSubDirectoy(name); 
+        } 
+    } 
+}
