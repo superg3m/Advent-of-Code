@@ -33,6 +33,7 @@ public:
     Directory* getParentDirectory();
 
     void printDirectoryTree(int depth = 0);
+    
 private:
     Directory* parentDirectory;
 };
