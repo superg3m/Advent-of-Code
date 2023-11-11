@@ -19,12 +19,4 @@ typedef struct FileFramework {
 
 FileFramework createFileFramework(const char* fileName);
 
-static void openFile(FileFramework* fileFramework);
-
-String getNextLine(FileFramework* fileFramework);
-
-static char getNextChar(FileFramework* fileFramework);
-
-static void closeFile(FileFramework* fileFramework);
-
 #endif

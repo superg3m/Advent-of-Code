@@ -1,32 +1,19 @@
 #include "../Header/GenericVector.h"
 
-Vector createVector(int capacity, size_t elementSize) {
-  Vector vector = (Vector){
-      .size = 0,
-      .capacity = capacity,
-      .elementSize = elementSize,
-      .data = malloc(capacity * elementSize),
-      .get = get,
-      .push_back = push_back,
-      .pop = pop,
-  };
+#define internal static
 
-  assert(vector.data != NULL);
-
-  return vector;
-}
-
-void push_back(Vector* vector, void* element) {
+internal void push_back(Vector* vector, void* element) {
   assert_msg(element != NULL, "Element being pushed back is NULL");
 
-  vector->size++;
+  
   if (vector->size > vector->capacity) {
     vector->capacity *= 2;
     vector->data =
         realloc(vector->data, vector->capacity * vector->elementSize);
   }
   char* destination =
-      (char*)vector->data + (vector->size - 1) * vector->elementSize;
+      (char*)vector->data + ((vector->size) * vector->elementSize);
+      
   char* source = (char*)element;
 
   for (int i = 0; i < vector->elementSize; i++) {
@@ -37,9 +24,10 @@ void push_back(Vector* vector, void* element) {
     }
     // printf("= %d\n" , destination[i]);
   }
+  vector->size++;
 }
 
-void* get(Vector* vector, int index) {
+internal void* get(Vector* vector, int index) {
   assert(vector->data != NULL);
 
   assert_msg((index) >= 0, "Error: Index out of bounds: (below zero)");
@@ -54,7 +42,7 @@ void* get(Vector* vector, int index) {
   return destination;
 }
 
-void* pop(Vector* vector) {
+internal void* pop(Vector* vector) {
   assert_msg(vector->data != NULL, "Error: Vector is empty");
   assert_msg(vector->size > 0, "Error: Vector is empty");
 
@@ -163,4 +151,20 @@ void test_vector_operations() {
       "All vector tests passed!"
       "\n"
       "\x1b[0m");  // Green checkmark
+}
+
+Vector createVector(int capacity, size_t elementSize) {
+  Vector vector = (Vector) {
+      .size = 0,
+      .capacity = capacity,
+      .elementSize = elementSize,
+      .data = malloc(capacity * elementSize),
+      .get = get,
+      .push_back = push_back,
+      .pop = pop,
+  };
+
+  assert(vector.data != NULL);
+
+  return vector;
 }

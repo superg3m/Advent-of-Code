@@ -20,12 +20,6 @@ typedef struct Vector {
 
 Vector createVector(int capacity, size_t elementSize);
 
-static void push_back(Vector* vector, void* element);
-
-static void* get(Vector* vector, int index);
-
-static void* pop(struct Vector* vector);
-
 void test_vector_operations();
 
 void free_vector(struct Vector* vector);

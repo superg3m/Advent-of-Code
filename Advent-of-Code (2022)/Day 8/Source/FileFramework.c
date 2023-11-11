@@ -1,25 +1,14 @@
 #include "../Header/FileFramework.h"
 
-FileFramework createFileFramework(const char* fileName) {
-  FileFramework fileFramework = (FileFramework){
-      .file = NULL,
-      .reachedEOF = false,
-      .fileName = fileName,
-      .openFile = openFile,
-      .getNextLine = getNextLine,
-      .getNextChar = getNextChar,
-      .closeFile = closeFile,
-  };
-  return fileFramework;
-}
+#define internal static
 
-void openFile(FileFramework* fileFramework) {
+internal void openFile(FileFramework* fileFramework) {
   fileFramework->file = fopen(fileFramework->fileName, "r");
   assert_msg(fileFramework->file != NULL,
              "FILE IS NULL, CHECK INITIAL FILE NAME");
 }
 
-String getNextLine(FileFramework* fileFramework) {
+internal String getNextLine(FileFramework* fileFramework) {
   String line = createString("");
   char c;
   do {
@@ -34,8 +23,23 @@ String getNextLine(FileFramework* fileFramework) {
   return line;
 }
 
-char getNextChar(FileFramework* fileFramework) {
+internal char getNextChar(FileFramework* fileFramework) {
   return fgetc(fileFramework->file);
 }
 
-void closeFile(FileFramework* fileFramework) { fclose(fileFramework->file); }
+internal void closeFile(FileFramework* fileFramework) { 
+    fclose(fileFramework->file); 
+}
+
+FileFramework createFileFramework(const char* fileName) {
+  FileFramework fileFramework = (FileFramework) {
+      .file = NULL,
+      .reachedEOF = false,
+      .fileName = fileName,
+      .openFile = openFile,
+      .getNextLine = getNextLine,
+      .getNextChar = getNextChar,
+      .closeFile = closeFile,
+  };
+  return fileFramework;
+}
