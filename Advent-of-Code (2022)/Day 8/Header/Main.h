@@ -12,7 +12,7 @@ void setColor(int color) {
   SetConsoleTextAttribute(hConsole, color);
 }
 
-void calculateAdjacentNodes(Node* currentNode, Node*** parentVector, int i,
+void calculateAdjacentNodes(Node** currentNode, Node*** parentVector, int i,
                             int j) {
   int rowLength = vector_size(*parentVector);
   int columnLength = vector_size((*parentVector)[0]);
@@ -72,10 +72,10 @@ void calculateAdjacentNodes(Node* currentNode, Node*** parentVector, int i,
   }
   printf("\n");
   */
-  currentNode->adjacentNodes[0] = northNode;
-  currentNode->adjacentNodes[1] = eastNode;
-  currentNode->adjacentNodes[2] = southNode;
-  currentNode->adjacentNodes[3] = westNode;
+  (*currentNode)->adjacentNodes[0] = northNode;
+  (*currentNode)->adjacentNodes[1] = eastNode;
+  (*currentNode)->adjacentNodes[2] = southNode;
+  (*currentNode)->adjacentNodes[3] = westNode;
 }
 
 void calculateVisibility(Node*** parentVector, int rowLength,
@@ -84,15 +84,15 @@ void calculateVisibility(Node*** parentVector, int rowLength,
   for (int i = 0; i < rowLength; i++) {
     Node* rowVector = (*parentVector)[i];
     for (int j = 0; j < columnLength; j++) {
-      Node currentNode = rowVector[j];
+      Node* currentNode = &rowVector[j];
       calculateAdjacentNodes(&currentNode, parentVector, i, j);
 
-      currentNode.isVisable = false;  // Assume the current node is not visible
+      currentNode->isVisable = false;  // Assume the current node is not visible
 
       for (int k = 0; k < 4; k++) {
-        if (currentNode.adjacentNodes[k] != NULL) {
-          if (currentNode.height < currentNode.adjacentNodes[k]->height) {
-            currentNode.isVisable = false;
+        if (currentNode->adjacentNodes[k] != NULL) {
+          if (currentNode->height < currentNode->adjacentNodes[k]->height) {
+            currentNode->isVisable = false;
             // printf("Current Node Height: %d | isVisable = %s |
             // Index:
             // [%d][%d] | currentNode->adjacentNodes[%d]->height:
@@ -100,15 +100,15 @@ void calculateVisibility(Node*** parentVector, int rowLength,
             // "True" : "False", i, j, k,
             // currentNode->adjacentNodes[k]->height);
             break;
-          } else if (currentNode.height >=
-                     currentNode.adjacentNodes[k]->height) {
-            currentNode.isVisable = true;
+          } else if (currentNode->height >=
+                     currentNode->adjacentNodes[k]->height) {
+            currentNode->isVisable = true;
           }
         }
       }
       for (int k = 0; k < 4; k++) {
-        if (currentNode.adjacentNodes[k] == NULL) {
-          currentNode.isVisable = true;
+        if (currentNode->adjacentNodes[k] == NULL) {
+          currentNode->isVisable = true;
           count++;
         }
       }
@@ -116,7 +116,7 @@ void calculateVisibility(Node*** parentVector, int rowLength,
       // printf("FINAL | Current Node Height: %d | isVisable = %s | Index:
       // [%d][%d]\n", currentNode->height, currentNode->isVisable ? "True"
       // : "False", i, j);
-      if (currentNode.isVisable) {
+      if (currentNode->isVisable) {
       }
     }
     // printf("\n");
