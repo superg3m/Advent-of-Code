@@ -29,9 +29,9 @@ int main() {
     }
     vector_push(parentVector, nodeVector);
   }
-  calculateVisibility(&parentVector, vector_size(parentVector),
+  calculateVisibility(parentVector, vector_size(parentVector),
                       vector_size(parentVector[0]));
-  checkerAnimation(&parentVector, vector_size(parentVector),
+  checkerAnimation(parentVector, vector_size(parentVector),
                    vector_size(parentVector[0]));
 
   return 0;

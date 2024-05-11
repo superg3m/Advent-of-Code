@@ -13,7 +13,7 @@ internal String getNextLine(FileFramework* fileFramework) {
   do {
     c = fgetc(fileFramework->file);
     if (c != '\n' && c != EOF) {
-      string_append_char(&line, c);
+      string_append_char(line, c);
     }
     if (c == EOF) {
       fileFramework->reachedEOF = true;
