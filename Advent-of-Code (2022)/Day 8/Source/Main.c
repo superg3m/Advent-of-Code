@@ -1,6 +1,8 @@
 #include "../Header/Main.h"
 
 int main() {
+  CKit_init();
+
   FileFramework fileFramework = createFileFramework("../Day8.txt");
   fileFramework.openFile(&fileFramework);
 
@@ -33,6 +35,15 @@ int main() {
                       vector_size(parentVector[0]));
   checkerAnimation(parentVector, vector_size(parentVector),
                    vector_size(parentVector[0]));
+
+  memory_tag_output(LOG_LEVEL_INFO);
+
+  vector_free(stringVector);
+  vector_free(parentVector);
+  string_arena_free();
+  memory_arena_vector_free();
+
+  memory_tag_output(LOG_LEVEL_WARN);
 
   return 0;
 }

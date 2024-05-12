@@ -35,7 +35,9 @@
         "color.h": "c",
         "windows.h": "c",
         "ckit.h": "c",
-        "core_string.h": "c"
+        "core_string.h": "c",
+        "core_logger.h": "c",
+        "core_arena.h": "c"
     },
     "C_Cpp.errorSquiggles": "enabled"
 }
