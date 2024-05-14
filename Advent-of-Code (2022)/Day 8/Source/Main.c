@@ -3,13 +3,13 @@
 int main() {
   CKit_init();
 
-  FileFramework fileFramework = createFileFramework("../Day8.txt");
-  fileFramework.openFile(&fileFramework);
+  FileSystem fileFramework = file_system_create("../Day8.txt");
+  file_open(&fileFramework);
 
   String* stringVector = vector_create(String);
 
   while (!fileFramework.reachedEOF) {
-    String line = fileFramework.getNextLine(&fileFramework);
+    String line = file_get_next_line(&fileFramework);
     vector_push(stringVector, line);
   }
 
@@ -36,14 +36,14 @@ int main() {
   checkerAnimation(parentVector, vector_size(parentVector),
                    vector_size(parentVector[0]));
 
-  memory_tag_output(LOG_LEVEL_INFO);
+  memory_output_allocations(LOG_LEVEL_INFO);
 
   vector_free(stringVector);
   vector_free(parentVector);
   string_arena_free();
   memory_arena_vector_free();
 
-  memory_tag_output(LOG_LEVEL_WARN);
+  memory_output_allocations(LOG_LEVEL_WARN);
 
   return 0;
 }

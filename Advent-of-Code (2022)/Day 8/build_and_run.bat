@@ -20,11 +20,11 @@ if not exist .\CKit (
 )
 
 pushd .\CKit
-call ".\Build_CKit_Lib.bat"
+call ".\build.bat"
 popd
 
 pushd .\build
-cl /std:c99 /Fe:"AOC_Day8.exe" /Zi "..\Source\*.c" "..\CKit\build\CKit.lib" "User32.lib">> "..\compilation_errors.txt" 2>nul
+cl /std:c99 /Fe:"AOC_Day8.exe" /Zi "..\Source\*.c" "..\CKit\build_cl\CKit.lib" "User32.lib">> "..\compilation_errors.txt" 2>nul
 popd
 
 call normalize_path.bat
