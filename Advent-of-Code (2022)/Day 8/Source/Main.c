@@ -1,8 +1,6 @@
 #include "../Header/Main.h"
 
 int main() {
-  CKit_init();
-
   FileSystem fileFramework = file_system_create("../Day8.txt");
   file_open(&fileFramework);
 
@@ -38,10 +36,15 @@ int main() {
 
   memory_output_allocations(LOG_LEVEL_INFO);
 
+  for (int i = 0; i < vector_size(stringVector); i++) {
+    string_free(stringVector[i]);
+  }
   vector_free(stringVector);
+
+  for (int i = 0; i < vector_size(parentVector); i++) {
+    vector_free(parentVector[i]);
+  }
   vector_free(parentVector);
-  string_arena_free();
-  memory_arena_vector_free();
 
   memory_output_allocations(LOG_LEVEL_WARN);
 
