@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include "Assert_Message.h"
 #include <stdio.h>
-#include "../CKit/include/core_string.h"
+#include "../CKit/ckit.h"
 
 typedef struct FileFramework {
   FILE* file;
