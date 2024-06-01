@@ -20,11 +20,11 @@ if not exist .\CKit (
 )
 
 pushd .\CKit
-call ".\build.bat"
+Powershell.exe -executionpolicy remotesigned -File ./build.ps1
 popd
 
 pushd .\build
-cl /std:c99 /Fe:"AOC_Day8.exe" /Zi "..\Source\*.c" "..\CKit\build_cl\CKit.lib" "User32.lib">> "..\compilation_errors.txt" 2>nul
+cl /std:c11 /Fe:"AOC_Day8.exe" /Zi "..\Source\*.c" "..\CKit\build_cl\CKit.lib" "User32.lib">> "..\compilation_errors.txt" 2>nul
 popd
 
 call normalize_path.bat
