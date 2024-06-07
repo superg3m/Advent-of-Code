@@ -1,0 +1,22 @@
+{
+    "$project_name" : "AOC Day 8",
+
+    "$debug_with_visual_studio" : false,
+
+    "./build_cl" : {
+        "$should_run" : true,
+
+        "$build_name" : "build AOC day 8 exe",
+        "$projects_to_build" : ["ckit"],
+
+        "$output_name" : "AOC_day8.exe",
+        "$compile_time_defines" : "",
+        "$include_paths" : "",
+        "$source_paths" : "../source/*.c",
+
+        "$std_version" : "c11",
+        "$build_lib" : false,
+
+        "$additional_libs" : "../ckit/build_cl/ckit.lib"
+    }
+}
