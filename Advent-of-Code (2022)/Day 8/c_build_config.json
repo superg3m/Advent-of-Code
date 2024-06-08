@@ -4,10 +4,14 @@
     "$debug_with_visual_studio" : false,
 
     "./build_cl" : {
-        "$should_run" : true,
+        "$should_build_procedure" : true,
+        "$should_fully_rebuild_project_depedencies" : false,
 
-        "$build_name" : "build AOC day 8 exe",
-        "$projects_to_build" : ["ckit"],
+        "$should_build_lib" : false,
+        "$should_execute" : true,
+
+        "$build_procedure_name" : "building AOC_day8.exe",
+        "$projects_dependencies_to_build" : ["ckit"],
 
         "$output_name" : "AOC_day8.exe",
         "$compile_time_defines" : "",
@@ -15,7 +19,6 @@
         "$source_paths" : "../source/*.c",
 
         "$std_version" : "c11",
-        "$build_lib" : false,
 
         "$additional_libs" : "../ckit/build_cl/ckit.lib"
     }
