@@ -5,49 +5,46 @@ int main() {
   FileSystem fileFramework = file_system_create("../Day8.txt");
   file_open(&fileFramework);
 
-  String* stringVector = vector_create(String);
+  String* stringVector = NULLPTR;
 
   while (!fileFramework.reachedEOF) {
     String line = file_get_next_line(&fileFramework);
-    vector_push(stringVector, line);
+    ckit_vector_push(stringVector, line);
   }
 
-  Node** parentVector = vector_reserve(vector_size(stringVector), Node*);
-  for (int i = 0; i < vector_size(stringVector); i++) {
+  Node** parentVector = ckit_vector_reserve(ckit_vector_count(stringVector), Node*);
+  for (int i = 0; i < ckit_vector_count(stringVector); i++) {
     String element = stringVector[i];
-    Node* nodeVector = vector_reserve(string_length(element), Node);
-    for (int j = 0; j < string_length(element); j++) {
+    Node* nodeVector = ckit_vector_reserve(ckit_cstr_length(element), Node);
+    for (int j = 0; j < ckit_cstr_length(element); j++) {
       Node node;
 
       int charNumber = (element[j] - '0');
-      if (i == 0 || i == vector_size(stringVector) - 1 || j == 0 ||
-          j == string_length(element)) {
+      if (i == 0 || i == ckit_vector_count(stringVector) - 1 || j == 0 ||
+          j == ckit_cstr_length(element)) {
         node = createNode(charNumber, false);
       } else {
         node = createNode(charNumber, false);
       }
-      vector_push(nodeVector, node);
+      ckit_vector_push(nodeVector, node);
     }
-    vector_push(parentVector, nodeVector);
+    ckit_vector_push(parentVector, nodeVector);
   }
-  calculateVisibility(parentVector, vector_size(parentVector),
-                      vector_size(parentVector[0]));
-  checkerAnimation(parentVector, vector_size(parentVector),
-                   vector_size(parentVector[0]));
+  calculateVisibility(parentVector, ckit_vector_count(parentVector),
+                      ckit_vector_count(parentVector[0]));
+  checkerAnimation(parentVector, ckit_vector_count(parentVector),
+                   ckit_vector_count(parentVector[0]));
 
-  memory_output_allocations(LOG_LEVEL_INFO);
-
-  for (int i = 0; i < vector_size(stringVector); i++) {
-    string_free(stringVector[i]);
+  for (int i = 0; i < ckit_vector_count(stringVector); i++) {
+    ckit_str_free(stringVector[i]);
   }
-  vector_free(stringVector);
+  ckit_vector_free(stringVector);
 
-  for (int i = 0; i < vector_size(parentVector); i++) {
-    vector_free(parentVector[i]);
+  for (int i = 0; i < ckit_vector_count(parentVector); i++) {
+    ckit_vector_free(parentVector[i]);
   }
-  vector_free(parentVector);
+  ckit_vector_free(parentVector);
 
-  memory_output_allocations(LOG_LEVEL_WARN);
-
+  ckit_cleanup();
   return 0;
 }

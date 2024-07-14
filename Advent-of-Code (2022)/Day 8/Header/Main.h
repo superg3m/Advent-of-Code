@@ -13,8 +13,8 @@ void setColor(int color) {
 
 void calculateAdjacentNodes(Node* currentNode, Node** parentVector, int i,
                             int j) {
-  int rowLength = vector_size(*parentVector);
-  int columnLength = vector_size(parentVector[0]);
+  int rowLength = ckit_vector_count(*parentVector);
+  int columnLength = ckit_vector_count(parentVector[0]);
 
   Node* northNode = NULL;
   Node* eastNode = NULL;

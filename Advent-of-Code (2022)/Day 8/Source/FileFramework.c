@@ -8,12 +8,12 @@ internal void openFile(FileFramework* fileFramework) {
 }
 
 internal String getNextLine(FileFramework* fileFramework) {
-  String line = string_create("");
+  String line = ckit_str_create("");
   char c;
   do {
     c = fgetc(fileFramework->file);
     if (c != '\n' && c != EOF) {
-      string_append_char(line, c);
+      ckit_str_append_char(line, c);
     }
     if (c == EOF) {
       fileFramework->reachedEOF = true;
