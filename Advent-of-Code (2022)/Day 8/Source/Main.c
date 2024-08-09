@@ -1,6 +1,7 @@
 #include "../Header/Main.h"
 
 int main() {
+  ckit_init();
 
   FileSystem fileFramework = file_system_create("../Day8.txt");
   file_open(&fileFramework);
@@ -44,6 +45,8 @@ int main() {
     ckit_vector_free(parentVector[i]);
   }
   ckit_vector_free(parentVector);
+
+  file_close(&fileFramework);
 
   ckit_cleanup();
   return 0;

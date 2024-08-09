@@ -1,28 +1,33 @@
 {
-    "c_build_version" : "0.8",
+    "c_build_version": "0.9",
+    "project_name": "AOC_DAY8",
+    "github_root": "https://github.com/superg3m",
+    "compiler_type": "cl",
+    "std_version": "c11",
+    "compiler_warning_level": "all",
 
-    "project_name" : "AOC Day 8",
-    
-    "debug_with_visual_studio" : false,
-    "should_rebuild_project_dependencies" : true,
+    "compiler_disable_warnings": false,
+    "debug_with_visual_studio": false,
+    "should_rebuild_project_dependencies": false,
+    "compiler_treat_warnings_as_errors": true,
 
-    "compiler_type" : "cl",
-
-    "std_version" : "c11",
-    "project_dependencies" : ["ckit"],
+    "project_dependencies": ["ckit"],
+    "disable_specific_warnings": [""],
+    "inject_as_argument": [""],
 
     "./build_cl" : {
         "output_name" : "AOC_day8.exe",
         "compile_time_defines" : "",
-        "include_paths" : "",
-        "source_paths" : [
+        "include_paths" : ["../ckit/Include/ckg", "../ckit/Include/ckit"],
+        "source_files" : [
             "../source/*.c"
         ],
 
         "additional_libs" : [
-            "../ckit/build_cl/ckit.lib"
+            "../ckit/ckit_build_cl/ckit.lib"
         ]
     },
 
-    "execute" : "AOC_day8.exe"
+    "execute" : ["AOC_day8.exe"]
 }
+
