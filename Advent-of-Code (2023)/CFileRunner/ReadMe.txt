@@ -1,1 +1,0 @@
-powershell -ExecutionPolicy Bypass -File ../CFileRunner/RunC.ps1
