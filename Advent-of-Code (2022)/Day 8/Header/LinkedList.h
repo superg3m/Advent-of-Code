@@ -8,11 +8,11 @@ typedef struct LinkedList {
   int size;
   Node* head;
   Node* tail;
-  void (*appendNode)(LinkedList*, Node*);
-  Node* (*getNodeAt)(LinkedList*, int);
-  void (*popNode)(LinkedList*);
-  void (*printLinkedList)(LinkedList*);
-  void (*freeLinkedList)(LinkedList*);
+  void (*appendNode)(struct LinkedList*, Node*);
+  Node* (*getNodeAt)(struct LinkedList*, int);
+  void (*popNode)(struct LinkedList*);
+  void (*printLinkedList)(struct LinkedList*);
+  void (*freeLinkedList)(struct LinkedList*);
 } LinkedList;
 
 LinkedList createLinkedList();

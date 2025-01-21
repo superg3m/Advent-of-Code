@@ -1,41 +1,48 @@
 #include "../Header/Main.h"
 
 int main() {
-  test_vector_operations();
-  Sleep(1000);
-  FileFramework fileFramework = createFileFramework("../Day8.txt");
-  fileFramework.openFile(&fileFramework);
+  ckit_init();
 
-  Vector stringVector = createVector(5, sizeof(String));
+  FileSystem fileFramework = file_system_create("../Day8.txt");
+  file_open(&fileFramework);
+
+  String* stringVector = NULLPTR;
 
   while (!fileFramework.reachedEOF) {
-    String line = fileFramework.getNextLine(&fileFramework);
-    stringVector.push_back(&stringVector, &line);
+    String line = file_get_next_line(&fileFramework);
+    ckit_vector_push(stringVector, line);
   }
 
-  Vector parentVector = createVector(stringVector.size, sizeof(Vector));
-  Vector nodeVector;
-  for (int i = 0; i < stringVector.size; i++) {
-    String* element = (String*)stringVector.get(&stringVector, i);
-    nodeVector = createVector(element->length, sizeof(Node));
-    for (int j = 0; j < element->length; j++) {
+  Node** parentVector = ckit_vector_reserve(ckit_vector_count(stringVector), Node*);
+  for (int i = 0; i < ckit_vector_count(stringVector); i++) {
+    String element = stringVector[i];
+    Node* nodeVector = ckit_vector_reserve(ckit_cstr_length(element), Node);
+    for (int j = 0; j < ckit_cstr_length(element); j++) {
       Node node;
 
-      int charNumber = (element->data[j] - '0');
-      if (i == 0 || i == stringVector.size - 1 || j == 0 ||
-          j == element->length - 1) {
+      int charNumber = (element[j] - '0');
+      if (i == 0 || i == ckit_vector_count(stringVector) - 1 || j == 0 ||
+          j == ckit_cstr_length(element)) {
         node = createNode(charNumber, false);
       } else {
         node = createNode(charNumber, false);
       }
-      nodeVector.push_back(&nodeVector, &node);
+      ckit_vector_push(nodeVector, node);
     }
-    parentVector.push_back(&parentVector, &nodeVector);
+    ckit_vector_push(parentVector, nodeVector);
   }
-  calculateVisibility(&parentVector, parentVector.size,
-                      ((Vector*)parentVector.get(&parentVector, 0))->size);
-  checkerAnimation(&parentVector, parentVector.size,
-                   ((Vector*)parentVector.get(&parentVector, 0))->size);
+  
+  calculateVisibility(parentVector, ckit_vector_count(parentVector), ckit_vector_count(parentVector[0]));
+  checkerAnimation(parentVector, ckit_vector_count(parentVector), ckit_vector_count(parentVector[0]));
+  ckit_vector_free(stringVector);
 
+  for (int i = 0; i < ckit_vector_count(parentVector); i++) {
+    ckit_vector_free(parentVector[i]);
+  }
+  ckit_vector_free(parentVector);
+
+  file_close(&fileFramework);
+
+  ckit_cleanup(TRUE);
   return 0;
 }

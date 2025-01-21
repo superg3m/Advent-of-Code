@@ -1,16 +1,16 @@
 #include "../Header/LinkedList.h"
 
 LinkedList createLinkedList() {
-  LinkedList newList = (LinkedList){
-      .size = 0,
-      .head = NULL,
-      .tail = NULL,
-      .appendNode = appendNode,
-      .getNodeAt = getNodeAt,
-      .popNode = popNode,
-      .printLinkedList = printLinkedList,
-      .freeLinkedList = freeLinkedList,
-  };
+  LinkedList newList;
+  newList.size = 0;
+  newList.head = NULL;
+  newList.tail = NULL;
+  newList.appendNode = appendNode;
+  newList.getNodeAt = getNodeAt;
+  newList.popNode = popNode;
+  newList.printLinkedList = printLinkedList;
+  newList.freeLinkedList = freeLinkedList;
+
   return newList;
 }
 

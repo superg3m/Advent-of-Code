@@ -1,22 +1,22 @@
+#pragma once
+
 #include <Windows.h>
 #include <stdio.h>
 
 #include "Color.h"
-#include "FileFramework.h"
-#include "GenericVector.h"
 #include "LinkedList.h"
 #include "Node.h"
-#include "String.h"
+#include "../CKit/CKit.h"
 
 void setColor(int color) {
   HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
   SetConsoleTextAttribute(hConsole, color);
 }
 
-void calculateAdjacentNodes(Node* currentNode, Vector* parentVector, int i,
+void calculateAdjacentNodes(Node* currentNode, Node** parentVector, int i,
                             int j) {
-  int rowLength = parentVector->size;
-  int columnLength = ((Vector*)parentVector->get(parentVector, 0))->size;
+  int rowLength = ckit_vector_count(*parentVector);
+  int columnLength = ckit_vector_count(parentVector[0]);
 
   Node* northNode = NULL;
   Node* eastNode = NULL;
@@ -25,26 +25,26 @@ void calculateAdjacentNodes(Node* currentNode, Vector* parentVector, int i,
 
   if (i - 1 >= 0) {
     // printf("northNode INDEX: %d\n", row - 1);
-    Vector* rowVector = (Vector*)parentVector->get(parentVector, i - 1);
-    northNode = (Node*)rowVector->get(rowVector, j);
+    Node* rowVector = parentVector[i - 1];
+    northNode = &rowVector[j];
   }
 
   if (j + 1 < columnLength) {
     // printf("eastNode INDEX: %d\n", column + 1);
-    Vector* rowVector = (Vector*)parentVector->get(parentVector, i);
-    eastNode = (Node*)rowVector->get(rowVector, j + 1);
+    Node* rowVector = parentVector[i];
+    eastNode = &rowVector[j + 1];
   }
 
   if (i + 1 < rowLength) {
     // printf("southNode INDEX: %d\n", row + 1);
-    Vector* rowVector = (Vector*)parentVector->get(parentVector, i + 1);
-    southNode = (Node*)rowVector->get(rowVector, j);
+    Node* rowVector = parentVector[i + 1];
+    southNode = &rowVector[j];
   }
 
   if (j - 1 >= 0) {
     // printf("westNode INDEX: %d\n", column - 1);
-    Vector* rowVector = (Vector*)parentVector->get(parentVector, i);
-    westNode = (Node*)rowVector->get(rowVector, j - 1);
+    Node* rowVector = parentVector[i];
+    westNode = &rowVector[j - 1];
   }
   /*
   printf("Current Node: %d[%d][%d]\n", currentNode->height, i, j);
@@ -79,14 +79,13 @@ void calculateAdjacentNodes(Node* currentNode, Vector* parentVector, int i,
   currentNode->adjacentNodes[3] = westNode;
 }
 
-void calculateVisibility(Vector* parentVector, int rowLength,
+void calculateVisibility(Node** parentVector, int rowLength,
                          int columnLength) {
   int count = 0;
   for (int i = 0; i < rowLength; i++) {
-    Vector* rowVector = (Vector*)parentVector->get(parentVector, i);
+    Node* rowVector = parentVector[i];
     for (int j = 0; j < columnLength; j++) {
-      Node* currentNode = (Node*)rowVector->get(rowVector, j);
-      assert(currentNode != NULL);
+      Node* currentNode = &rowVector[j];
       calculateAdjacentNodes(currentNode, parentVector, i, j);
 
       currentNode->isVisable = false;  // Assume the current node is not visible
@@ -138,7 +137,7 @@ void calculateVisibility(Vector* parentVector, int rowLength,
 // 7. After performing rule 6 save the direction in which the node is visable do
 // this in an array of bools North, East, South, West
 
-void checkerAnimation(Vector* parentVector, int rowLength, int columnLength) {
+void checkerAnimation(Node** parentVector, int rowLength, int columnLength) {
   int row = 0;
   int column = 0;
 
@@ -151,10 +150,10 @@ void checkerAnimation(Vector* parentVector, int rowLength, int columnLength) {
     Sleep(50);
     system("cls");  // Clear console screen once before printing
     for (int i = 0; i < rowLength; i++) {
-      Vector* currentVector = (Vector*)parentVector->get(parentVector, i);
+      Node* currentVector = parentVector[i];
 
       for (int j = 0; j < columnLength; j++) {
-        Node* currentNode = (Node*)currentVector->get(currentVector, j);
+        Node* currentNode = &currentVector[j];
 
         if (i == row && j == column) {
           // setColor(currentNode->isVisable ? FOREGROUND_GREEN :

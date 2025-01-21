@@ -1,3 +1,49 @@
+# Prerequisites
+*.d
 
-Advent-of-Code (2022)/Day_8/build
-Advent-of-Code (2022)/Day_8/CKit
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Debug Info
+*.pdb
+*.rdi
+*.ilk
+
+# c-build
+build_cl/
+/Tests/CoreTest/build_cl
+/Tests/GraphicsTest/build_cl
+
+
+Advent-of-Code (2022)/Day 8/build_*/
+Advent-of-Code (2022)/Day 8/ckit/
+Advent-of-Code (2022)/Day 8/c_build/
+Advent-of-Code (2022)/*.ps1
+!Advent-of-Code (2022)/bootstrap.ps1

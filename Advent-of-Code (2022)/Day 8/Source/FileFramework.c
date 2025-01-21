@@ -4,17 +4,16 @@
 
 internal void openFile(FileFramework* fileFramework) {
   fileFramework->file = fopen(fileFramework->fileName, "r");
-  assert_msg(fileFramework->file != NULL,
-             "FILE IS NULL, CHECK INITIAL FILE NAME");
+  assert_msg(fileFramework->file != NULL, "FILE IS NULL, CHECK INITIAL FILE NAME");
 }
 
 internal String getNextLine(FileFramework* fileFramework) {
-  String line = createString("");
+  String line = ckit_str_create("");
   char c;
   do {
     c = fgetc(fileFramework->file);
     if (c != '\n' && c != EOF) {
-      line.appendChar(&line, c);
+      ckit_str_append_char(line, c);
     }
     if (c == EOF) {
       fileFramework->reachedEOF = true;
@@ -32,14 +31,13 @@ internal void closeFile(FileFramework* fileFramework) {
 }
 
 FileFramework createFileFramework(const char* fileName) {
-  FileFramework fileFramework = (FileFramework) {
-      .file = NULL,
-      .reachedEOF = false,
-      .fileName = fileName,
-      .openFile = openFile,
-      .getNextLine = getNextLine,
-      .getNextChar = getNextChar,
-      .closeFile = closeFile,
-  };
+  FileFramework fileFramework;
+  fileFramework.file = NULL;
+  fileFramework.reachedEOF = false;
+  fileFramework.fileName = fileName;
+  fileFramework.openFile = openFile;
+  fileFramework.getNextLine = getNextLine;
+  fileFramework.getNextChar = getNextChar;
+  fileFramework.closeFile = closeFile;
   return fileFramework;
 }
