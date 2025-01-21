@@ -31,14 +31,9 @@ int main() {
     }
     ckit_vector_push(parentVector, nodeVector);
   }
-  calculateVisibility(parentVector, ckit_vector_count(parentVector),
-                      ckit_vector_count(parentVector[0]));
-  checkerAnimation(parentVector, ckit_vector_count(parentVector),
-                   ckit_vector_count(parentVector[0]));
-
-  for (int i = 0; i < ckit_vector_count(stringVector); i++) {
-    ckit_str_free(stringVector[i]);
-  }
+  
+  calculateVisibility(parentVector, ckit_vector_count(parentVector), ckit_vector_count(parentVector[0]));
+  checkerAnimation(parentVector, ckit_vector_count(parentVector), ckit_vector_count(parentVector[0]));
   ckit_vector_free(stringVector);
 
   for (int i = 0; i < ckit_vector_count(parentVector); i++) {
@@ -48,6 +43,6 @@ int main() {
 
   file_close(&fileFramework);
 
-  ckit_cleanup();
+  ckit_cleanup(TRUE);
   return 0;
 }
