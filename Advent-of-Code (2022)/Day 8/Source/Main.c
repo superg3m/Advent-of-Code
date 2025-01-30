@@ -16,13 +16,14 @@ int main() {
   Node** parentVector = ckit_vector_reserve(ckit_vector_count(stringVector), Node*);
   for (int i = 0; i < ckit_vector_count(stringVector); i++) {
     String element = stringVector[i];
-    Node* nodeVector = ckit_vector_reserve(ckit_cstr_length(element), Node);
-    for (int j = 0; j < ckit_cstr_length(element); j++) {
+    u64 element_length = ckit_str_length(element);
+    Node* nodeVector = ckit_vector_reserve(element_length, Node);
+    for (int j = 0; j < element_length; j++) {
       Node node;
 
       int charNumber = (element[j] - '0');
       if (i == 0 || i == ckit_vector_count(stringVector) - 1 || j == 0 ||
-          j == ckit_cstr_length(element)) {
+          j == element_length) {
         node = createNode(charNumber, false);
       } else {
         node = createNode(charNumber, false);
