@@ -14,15 +14,15 @@ int main() {
   }
 
   Node** parentVector = ckit_vector_reserve(ckit_vector_count(stringVector), Node*);
-  for (int i = 0; i < ckit_vector_count(stringVector); i++) {
+  for (u32 i = 0; i < ckit_vector_count(stringVector); i++) {
     String element = stringVector[i];
     u64 element_length = ckit_str_length(element);
-    Node* nodeVector = ckit_vector_reserve(element_length, Node);
-    for (int j = 0; j < element_length; j++) {
+    Node* nodeVector = ckit_vector_reserve((u32)element_length, Node);
+    for (u32 j = 0; j < element_length; j++) {
       Node node;
 
       int charNumber = (element[j] - '0');
-      if (i == 0 || i == ckit_vector_count(stringVector) - 1 || j == 0 ||
+      if (i == 0 || i == (ckit_vector_count(stringVector) - 1) || j == 0 ||
           j == element_length) {
         node = createNode(charNumber, false);
       } else {
@@ -37,7 +37,7 @@ int main() {
   checkerAnimation(parentVector, ckit_vector_count(parentVector), ckit_vector_count(parentVector[0]));
   ckit_vector_free(stringVector);
 
-  for (int i = 0; i < ckit_vector_count(parentVector); i++) {
+  for (u32 i = 0; i < ckit_vector_count(parentVector); i++) {
     ckit_vector_free(parentVector[i]);
   }
   ckit_vector_free(parentVector);
