@@ -12,7 +12,7 @@ def FIND_C_BUILD(current_dir):
         FIND_C_BUILD(parent_dir)
 
 FIND_C_BUILD(os.path.abspath(os.path.dirname(__file__)))
-from c_build.source.Utilities import *
+from c_build.source.UserUtilities import *
 from c_build.source.Manager import *
 # --------------------------------------------------------------------------------------s
 
@@ -50,7 +50,7 @@ else:
     cc.compiler_disable_specific_warnings = ["deprecated", "parentheses"]
 
 
-libs = [f"../ckit/build_{cc.compiler_name}/{C_BUILD_LIB('ckit', cc.compiler_name)}"]
+libs = [f"../ckit/build_{cc.compiler_name}/{GET_LIB_NAME(cc, 'ckit')}"]
 if IS_WINDOWS():
 	windows_libs = ["User32.lib", "Gdi32.lib"] if cc.compiler_name == "cl" else ["-lUser32", "-lGdi32"]
 	libs += windows_libs
