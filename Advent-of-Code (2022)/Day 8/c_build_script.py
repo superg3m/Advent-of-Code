@@ -18,10 +18,14 @@ from c_build.source.Manager import *
 
 pc: ProjectConfig = ProjectConfig(
     project_name = "AOC_DAY8",
-    project_dependencies = ["ckit"],
+    project_dependencies = [
+        Dependency(
+            name="ckit"
+        )
+    ],
     project_debug_with_visual_studio = True,
     project_rebuild_project_dependencies = True,
-    project_executable_procedures  = ["AOC_day8.exe"]
+    project_executable_names  = ["AOC_day8.exe"]
 )
 
 cc: CompilerConfig = CompilerConfig(
@@ -50,22 +54,24 @@ else:
     cc.compiler_disable_specific_warnings = ["deprecated", "parentheses"]
 
 
-libs = [f"../ckit/build_{cc.compiler_name}/{GET_LIB_NAME(cc, 'ckit')}"]
+build_postfix = f"build_{cc.compiler_name}/{C_BUILD_BUILD_TYPE()}"
+
+libs = [f"../../ckit/{build_postfix}/{GET_LIB_NAME(cc, 'ckit')}"]
 if IS_WINDOWS():
-	windows_libs = ["User32.lib", "Gdi32.lib"] if cc.compiler_name == "cl" else ["-lUser32", "-lGdi32"]
-	libs += windows_libs
+    windows_libs = [GET_LIB_FLAG(cc, "User32"), GET_LIB_FLAG(cc, "Gdi32")]
+    libs += windows_libs
 
 procedures_config = {
-    "OpenGL_TechDemo": ProcedureConfigElement(
-        build_directory = f"./build_{cc.compiler_name}",
+    "OpenGL_TechDemo": ProcedureConfig(
+        build_directory = f"./{build_postfix}",
         output_name = f"AOC_day8.exe",
-        source_files = ["../Source/*.c"],
+        source_files = ["../../Source/*.c"],
         additional_libs = libs,
         compile_time_defines = [],
         compiler_inject_into_args = [],
         include_paths = [
-            "../ckit",
-            "../include",
+            "../../ckit",
+            "../../include",
         ],
     ),
 }

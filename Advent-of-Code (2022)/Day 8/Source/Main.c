@@ -3,7 +3,7 @@
 int main() {
   ckit_init();
 
-  FileSystem fileFramework = file_system_create("../Day8.txt");
+  FileSystem fileFramework = file_system_create("../../Day8.txt");
   file_open(&fileFramework);
 
   String* stringVector = NULLPTR;
