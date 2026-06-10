@@ -40,7 +40,7 @@
 build_cl/
 /Tests/CoreTest/build_cl
 /Tests/GraphicsTest/build_cl
-
+.idea
 
 Advent-of-Code (2022)/Day 8/build_*/
 Advent-of-Code (2022)/Day 8/ckit/

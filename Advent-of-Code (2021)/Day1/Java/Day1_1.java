@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Day1_1 {
 	public static void main (String[] args) {
 		int previous = Integer.MAX_VALUE;
-		File file = new File("../../Resource/Day1.txt");
+		File file = new File("../Day1.txt");
 		int occur = 0;
 		try {
 			Scanner scan = new Scanner(file);
