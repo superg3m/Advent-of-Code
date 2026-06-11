@@ -60,7 +60,7 @@ public class Day4_Improved {
 
     // ============== SCANS THE TEXT FILE ==============
     public static ArrayList<String[]> ScanTextFile() {
-        File file = new File("../../Resource/Day4.txt");
+        File file = new File("../Day4.txt");
         ArrayList<String[]> data = new ArrayList<>();
         Scanner scan;
 
