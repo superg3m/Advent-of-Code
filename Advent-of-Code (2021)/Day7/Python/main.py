@@ -77,9 +77,30 @@ def part_two(lines: list[str]) -> int:
 
     return binary_search_lease_fuel_part2(crabs)
 
+
+def part_two_improved(lines: list[str]) -> int:
+    str_crabs = lines[0].split(",")
+    crabs: list[int] = [int(str_crab) for str_crab in str_crabs]
+
+    left = min(crabs)
+    right = max(crabs)
+    while left < right:
+        middle = (left + right) // 2
+
+        cost_middle = calculate_fuel_cost_part2(crabs, middle)
+        cost_next = calculate_fuel_cost_part2(crabs, middle + 1)
+
+        if cost_middle > cost_next:
+            left = middle + 1
+        else:
+            right = middle
+
+    return calculate_fuel_cost_part2(crabs, left)
+
 if __name__ == "__main__":
     f = open("../Day7.txt")
     lines = f.read().splitlines()
     print(f"part1: {part_one(lines)}")
     print(f"part2: {part_two(lines)}")
+    print(f"part2_improved: {part_two_improved(lines)}")
     f.close()
