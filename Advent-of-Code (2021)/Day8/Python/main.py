@@ -1,7 +1,4 @@
-from dbm.sqlite3 import error
-from sys import exc_info
 from typing import Tuple, Dict
-
 
 def part_one(lines: list[str]) -> int:
     signals: list[list[str]] = []
