@@ -2,39 +2,32 @@ from typing import Tuple, Dict
 
 def print_grid(grid: list[list[str]], width: int, height: int):
     for i in range(height):
-        for j in range(width):
-            print(grid[i][j], end="")
-
-        print()
+        print(grid[i][0:width])
 
     print()
 
 def perform_fold(grid: list[list[str]], width: int, height: int, axis: str, value: int) -> Tuple[int, int]:
     if axis == "x":
-        for i in range(height):
-           grid[i][value] = "-"
-
-        for i in range(height):
-            for j in range(width - 1, value, -1):
+        start = width
+        for i in range(height + 1):
+            for j in range(start, value, -1):
                 if grid[i][j] != "#":
                     continue
 
-                grid[i][(width - 1) - j] = grid[i][j]
+                grid[i][value - (j - value)] = grid[i][j]
 
-        return width // 2, height
+        return value, height
 
     elif axis == "y":
-        for i in range(width):
-           grid[value][i] = "-"
-
-        for i in range(height - 1, value, -1):
-            for j in range(width):
+        start = height
+        for i in range(start, value, -1):
+            for j in range(width + 1):
                 if grid[i][j] != "#":
                     continue
 
-                grid[(height - 1) - i][j] = grid[i][j]
+                grid[value - (i - value)][j] = grid[i][j]
 
-        return width, height // 2
+        return width, value
 
 
 def part_one(lines: list[str]) -> int:
@@ -49,11 +42,8 @@ def part_one(lines: list[str]) -> int:
         height = max(height, int(y))
         i += 1
 
-    width += 1
-    height += 1
-
     i = 0
-    grid: list[list[str]] = [["." for _ in range(width)] for _ in range(height)]
+    grid: list[list[str]] = [["." for _ in range(width + 1)] for _ in range(height + 1)]
     while lines[i] != "":
         line = lines[i]
         x, y = line.split(",")
@@ -66,8 +56,8 @@ def part_one(lines: list[str]) -> int:
         width, height = perform_fold(grid, width, height, axis, int(value))
 
     count = 0
-    for i in range(height):
-        for j in range(width):
+    for i in range(height + 1):
+        for j in range(width + 1):
             if grid[i][j] == "#":
                 count += 1
 
@@ -85,11 +75,8 @@ def part_two(lines: list[str]) -> int:
         height = max(height, int(y))
         i += 1
 
-    width += 1
-    height += 1
-
     i = 0
-    grid: list[list[str]] = [[" " for _ in range(width)] for _ in range(height)]
+    grid: list[list[str]] = [["." for _ in range(width + 1)] for _ in range(height + 1)]
     while lines[i] != "":
         line = lines[i]
         x, y = line.split(",")
