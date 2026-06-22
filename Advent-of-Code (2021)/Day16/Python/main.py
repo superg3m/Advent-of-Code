@@ -37,13 +37,34 @@ def binary_str_to_decimal(binary_str: str) -> int:
 
     return ret
 
-def binary_to_version_type_id(binary_str: str) -> Tuple[int, int]:
-    return binary_str_to_decimal(binary_str[0:3]), binary_str_to_decimal(binary_str[3:6])
+def binary_to_version_type_id(binary_str: str) -> Tuple[int, int, str]:
+    return binary_str_to_decimal(binary_str[0:3]), binary_str_to_decimal(binary_str[3:6]), binary_str[6:len(binary_str)]
+
+def rest_of_binary_to_packet_binary_literal_value(rest_of_binary_str: str) -> str:
+    groups = []
+
+    i: int = 0
+    while True:
+        first = rest_of_binary_str[i]
+        if int(first) == 0:
+            groups.append(rest_of_binary_str[i + 1:i + 5])
+            break
+
+        groups.append(rest_of_binary_str[i + 1:i+5])
+        i += 5
+
+    print(groups)
+
+    return "".join(groups)
 
 def part_one(lines: list[str]) -> int:
     hex = lines[0]
     binary = hex_to_binary_string(hex)
-    print(binary_to_version_type_id(binary))
+    version, type_id, rest_of_binary_str = binary_to_version_type_id(binary)
+    if type_id == 4:
+        binary_literal_value = rest_of_binary_to_packet_binary_literal_value(rest_of_binary_str)
+        print("bin: ", binary_literal_value, binary_str_to_decimal(binary_literal_value))
+
 
     return 0
 
