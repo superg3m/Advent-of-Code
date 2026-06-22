@@ -42,6 +42,15 @@ class Packet:
 
     string_bits: str = ""
 
+    def calculate_version_sum(self):
+        total_version_sum = 0
+        total_version_sum += self.version
+        if isinstance(self, OperatorPacket):
+            for sub_packet in self.sub_packets:
+                total_version_sum += sub_packet.calculate_version_sum()
+
+        return total_version_sum
+
 class LiteralValuePacket(Packet):
     value: int = 0
 
@@ -97,10 +106,10 @@ def get_packet_header(packet_binary: str) -> Tuple[int, int]:
     return binary_str_to_decimal(packet_binary[0:3]), binary_str_to_decimal(packet_binary[3:6])
 
 def get_packet_length_of_sub_packets_in_bits(packet_binary: str) -> int:
-    return binary_str_to_decimal(packet_binary[8:23])
+    return binary_str_to_decimal(packet_binary[8:22])
 
 def get_packet_count_of_sub_packets(packet_binary: str) -> int:
-    return binary_str_to_decimal(packet_binary[8:19])
+    return binary_str_to_decimal(packet_binary[8:18])
 
 def consume_packet_header(packet_binary: str) -> str:
     return packet_binary[6:len(packet_binary)]
@@ -133,7 +142,7 @@ def consume_packet(VERSION_ARRAY: list[int], packet: str) -> Tuple[str, str]:
 
 def create_packet(packet_binary: str) -> Packet:
     version, type_id = get_packet_header(packet_binary)
-    if type_id == 4: #literal
+    if type_id == 4:
         binary_literal_bits = get_packet_binary_literal(packet_binary)
         bit_length = 6 + len(binary_literal_bits)
         value = binary_literal_bits_to_decimal(binary_literal_bits)
@@ -141,34 +150,34 @@ def create_packet(packet_binary: str) -> Packet:
         return LiteralValuePacket(packet_binary[0:bit_length], version, type_id, value)
 
     sub_packets: list[Packet] = []
-    length_type_id = int(packet_binary[7])
+    length_type_id = int(packet_binary[6])
+    total_sub_packets_bits = 0
     if length_type_id == 0:
         sub_packets_bit_length = get_packet_length_of_sub_packets_in_bits(packet_binary)
-        total_sub_packets_bits = 0
 
-        start_index = 8
         while total_sub_packets_bits < sub_packets_bit_length:
-            sub_packet = create_packet(packet_binary[8 + total_sub_packets_bits:len(packet_binary)])
+            sub_packet = create_packet(packet_binary[22 + total_sub_packets_bits:len(packet_binary)])
             total_sub_packets_bits += len(sub_packet.string_bits)
             sub_packets.append(sub_packet)
-    else:
-        sub_packet_count = get_packet_count_of_sub_packets(packet_binary)
-        total_sub_packets_count = 0
-        total_sub_packets_bits = 0
-        while total_sub_packets_count < sub_packet_count:
-            sub_packet = create_packet(packet_binary[8 + total_sub_packets_bits:len(packet_binary)])
-            sub_packets.append(sub_packet)
-            total_sub_packets_bits += len(sub_packet.string_bits)
-            total_sub_packets_count += 1
 
-    return OperatorPacket(packet_binary, version, type_id, length_type_id, sub_packets)
+        return OperatorPacket(packet_binary[0:22 + total_sub_packets_bits], version, type_id, length_type_id, sub_packets)
+
+    sub_packet_count = get_packet_count_of_sub_packets(packet_binary)
+    total_sub_packets_count = 0
+    while total_sub_packets_count < sub_packet_count:
+        sub_packet = create_packet(packet_binary[18 + total_sub_packets_bits:len(packet_binary)])
+        sub_packets.append(sub_packet)
+        total_sub_packets_bits += len(sub_packet.string_bits)
+        total_sub_packets_count += 1
+
+    return OperatorPacket(packet_binary[0:18 + total_sub_packets_bits], version, type_id, length_type_id, sub_packets)
 
 def part_one(lines: list[str]) -> int:
     hex = lines[0]
     packet_binary = hex_to_binary_string(hex)
     packet = create_packet(packet_binary)
 
-    return 0
+    return packet.calculate_version_sum()
 
 def part_two(lines: list[str]) -> int:
     return 0
