@@ -1,3 +1,4 @@
+import sys
 from typing import Dict, Tuple
 
 def hex_to_binary_string(hex: str) -> str:
@@ -50,6 +51,43 @@ class Packet:
                 total_version_sum += sub_packet.calculate_version_sum()
 
         return total_version_sum
+
+    def calculate_value(self) -> int:
+        if isinstance(self, OperatorPacket):
+            if self.type_id == 0:
+                total_value_sum = 0
+                for sub_packet in self.sub_packets:
+                    total_value_sum += sub_packet.calculate_value()
+
+                return total_value_sum
+            elif self.type_id == 1:
+                total_value_product = 1
+                for sub_packet in self.sub_packets:
+                    total_value_product *= sub_packet.calculate_value()
+
+                return total_value_product
+            elif self.type_id == 2:
+                min_value = sys.maxsize
+                for sub_packet in self.sub_packets:
+                    min_value = min(min_value, sub_packet.calculate_value())
+
+                return min_value
+            elif self.type_id == 3:
+                max_value = -1
+                for sub_packet in self.sub_packets:
+                    max_value = max(max_value, sub_packet.calculate_value())
+
+                return max_value
+            elif self.type_id == 5:
+                return int(self.sub_packets[0].calculate_value() > self.sub_packets[1].calculate_value())
+            elif self.type_id == 6:
+                return int(self.sub_packets[0].calculate_value() < self.sub_packets[1].calculate_value())
+            elif self.type_id == 7:
+                return int(self.sub_packets[0].calculate_value() == self.sub_packets[1].calculate_value())
+
+        elif isinstance(self, LiteralValuePacket):
+            if self.type_id == 4:
+                return self.value
 
 class LiteralValuePacket(Packet):
     value: int = 0
@@ -180,7 +218,11 @@ def part_one(lines: list[str]) -> int:
     return packet.calculate_version_sum()
 
 def part_two(lines: list[str]) -> int:
-    return 0
+    hex = lines[0]
+    packet_binary = hex_to_binary_string(hex)
+    packet = create_packet(packet_binary)
+
+    return packet.calculate_value()
 
 if __name__ == "__main__":
     f = open("../Day16.txt")
