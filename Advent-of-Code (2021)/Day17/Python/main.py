@@ -51,36 +51,111 @@ def print_grid(position_snapshots: list[Point], target_min: Point, target_max: P
 
     pass
 
+def hit_target(p: Point, target_min: Point, target_max: Point) -> bool:
+    return target_min.x <= p.x <= target_max.x and target_min.y <= p.y <= target_max.y
+
+def summation(n: int) -> int:
+    if n == 0:
+        return 0
+
+    return n + summation(n - 1)
+
 def part_one(lines: list[str]) -> int:
     line = lines[0]
     first_half, second_half = line[13:len(line)].split(", ")
     target_min = Point(int(first_half.split("..")[0].replace("x=", "")), int(second_half.split("..")[0].replace("y=", "")))
     target_max = Point(int(first_half.split("..")[1].replace("x=", "")), int(second_half.split("..")[1].replace("y=", "")))
 
-    print(target_min, target_max)
+    best_velocity = Point(0, 0)
+    best_x = 0
 
-    position = Point(0, 0)
-    velocity = Point(7, 2)
+    while True:
+        if best_x != 0 and not hit_target(Point(summation(best_velocity.x), target_min.y), target_min, target_max):
+            break
+        elif hit_target(Point(summation(best_velocity.x), target_max.y), target_min, target_max):
+            best_x = best_velocity.x
 
-    print(position)
-    print(velocity)
+        best_velocity.x += 1
 
-    position_snapshots: list[Point] = [Point(position.x, position.y)]
-    for step in range(7):
-        position.x += velocity.x
-        position.y += velocity.y
+    best_velocity.x = best_x
+    final_position_snapshots = []
 
-        velocity.x = move_toward(velocity.x, 0, 1)
-        velocity.y -= 1
+    initial_velocity = Point(best_velocity.x, best_velocity.y)
+    for _ in range(1000):
+        position = Point(0, 0)
+        velocity = Point(initial_velocity.x, initial_velocity.y)
+        position_snapshots: list[Point] = [Point(position.x, position.y)]
+        while True:
+            position.x += velocity.x
+            position.y += velocity.y
 
-        position_snapshots.append(Point(position.x, position.y))
+            velocity.x = move_toward(velocity.x, 0, 1)
+            velocity.y -= 1
 
-    print_grid(position_snapshots, target_min, target_max)
+            position_snapshots.append(Point(position.x, position.y))
 
-    return 0
+            if hit_target(position, target_min, target_max):
+                best_velocity = Point(initial_velocity.x, initial_velocity.y)
+                final_position_snapshots = position_snapshots
+                break
+
+            if position.y < target_min.y:
+                break
+
+        initial_velocity.y += 1
+
+    print(best_velocity)
+    #print_grid(final_position_snapshots, target_min, target_max)
+
+    max_y = 0
+    for pos in final_position_snapshots:
+        max_y = max(max_y, pos.y)
+
+    return max_y
 
 def part_two(lines: list[str]) -> int:
-    return 0
+    line = lines[0]
+    first_half, second_half = line[13:len(line)].split(", ")
+    target_min = Point(int(first_half.split("..")[0].replace("x=", "")), int(second_half.split("..")[0].replace("y=", "")))
+    target_max = Point(int(first_half.split("..")[1].replace("x=", "")), int(second_half.split("..")[1].replace("y=", "")))
+
+    best_velocity = Point(0, 0)
+    best_x = 0
+
+    while True:
+        if best_x != 0 and not hit_target(Point(summation(best_velocity.x), target_min.y), target_min, target_max):
+            break
+        elif hit_target(Point(summation(best_velocity.x), target_max.y), target_min, target_max):
+            best_x = best_velocity.x
+
+        best_velocity.x += 1
+
+    best_velocity.x = best_x
+    initial_velocities: list[Point] = []
+    initial_velocity = Point(best_velocity.x, best_velocity.y)
+    for _ in range(1000):
+        position = Point(0, 0)
+        velocity = Point(initial_velocity.x, initial_velocity.y)
+        position_snapshots: list[Point] = [Point(position.x, position.y)]
+        while True:
+            position.x += velocity.x
+            position.y += velocity.y
+
+            velocity.x = move_toward(velocity.x, 0, 1)
+            velocity.y -= 1
+
+            position_snapshots.append(Point(position.x, position.y))
+
+            if hit_target(position, target_min, target_max):
+                initial_velocities.append(Point(initial_velocity.x, initial_velocity.y))
+                break
+
+            if position.y < target_min.y:
+                break
+
+        initial_velocity.y += 1
+
+    return len(initial_velocities)
 
 if __name__ == "__main__":
     f = open("../Day17.txt")
