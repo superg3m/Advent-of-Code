@@ -152,32 +152,6 @@ def get_packet_count_of_sub_packets(packet_binary: str) -> int:
 def consume_packet_header(packet_binary: str) -> str:
     return packet_binary[6:len(packet_binary)]
 
-"""
-def consume_packet(VERSION_ARRAY: list[int], packet: str) -> Tuple[str, str]:
-    packet, version, type_id = consume_packet_header(packet)
-    VERSION_ARRAY.append(version)
-
-    if type_id == 4: #literal
-        packet, binary_literal_bits = consume_packet_binary_literal(packet)
-        return packet, binary_literal_bits
-    else:
-        packet, length_type_id_bit = consume_packet_length_type_id(packet)
-        if length_type_id_bit == 0:
-            packet, bit_length = consume_packet_length_of_sub_packets_in_bits(packet)
-            total_sub_packets_bits = 0
-            while total_sub_packets_bits < bit_length:
-                packet, sub_packet = consume_packet(VERSION_ARRAY, packet)
-                total_sub_packets_bits += HEADER_LENGTH + len(sub_packet)
-        else:
-            packet, sub_packet_count = consume_packet_count_of_sub_packets(packet)
-            total_sub_packets_count = 0
-            while total_sub_packets_count < sub_packet_count:
-                packet, sub_packet = consume_packet(VERSION_ARRAY, packet)
-                total_sub_packets_count += 1
-
-    return packet, ""
-"""
-
 def create_packet(packet_binary: str) -> Packet:
     version, type_id = get_packet_header(packet_binary)
     if type_id == 4:
