@@ -1,3 +1,6 @@
+import sys
+
+
 class Point:
     def __init__(self, x: int, y: int):
         self.x = x
@@ -60,11 +63,10 @@ def summation(n: int) -> int:
 
     return n + summation(n - 1)
 
-"""
 def launch_probe(initial_velocity: Point, target_min: Point, target_max: Point) -> int:
     max_y = 0
     position = Point(0, 0)
-    velocity = Point(0, 0)
+    velocity = Point(initial_velocity.x, initial_velocity.y)
 
     while True:
         position.x += velocity.x
@@ -72,17 +74,14 @@ def launch_probe(initial_velocity: Point, target_min: Point, target_max: Point) 
         velocity.x = move_toward(velocity.x, 0, 1)
         velocity.y -= 1
 
-        position_snapshots.append(Point(position.x, position.y))
-
+        max_y = max(max_y, position.y)
         if hit_target(position, target_min, target_max):
-            max_y = max(max_y, position.y)
-            break
+            return max_y
 
         if position.y < target_min.y:
             break
 
-    return max_y
-"""
+    return sys.maxsize
 
 def part_one(lines: list[str]) -> int:
     line = lines[0]
@@ -90,50 +89,12 @@ def part_one(lines: list[str]) -> int:
     target_min = Point(int(first_half.split("..")[0].replace("x=", "")), int(second_half.split("..")[0].replace("y=", "")))
     target_max = Point(int(first_half.split("..")[1].replace("x=", "")), int(second_half.split("..")[1].replace("y=", "")))
 
-    best_velocity = Point(0, 0)
-    best_x = 0
-
-    while True:
-        if best_x != 0 and not hit_target(Point(summation(best_velocity.x), target_min.y), target_min, target_max):
-            break
-        elif hit_target(Point(summation(best_velocity.x), target_max.y), target_min, target_max):
-            best_x = best_velocity.x
-
-        best_velocity.x += 1
-
-    best_velocity.x = best_x
-    final_position_snapshots = []
-
-    initial_velocity = Point(best_velocity.x, best_velocity.y)
-    for _ in range(1000):
-        position = Point(0, 0)
-        velocity = Point(initial_velocity.x, initial_velocity.y)
-        position_snapshots: list[Point] = [Point(position.x, position.y)]
-        while True:
-            position.x += velocity.x
-            position.y += velocity.y
-
-            velocity.x = move_toward(velocity.x, 0, 1)
-            velocity.y -= 1
-
-            position_snapshots.append(Point(position.x, position.y))
-
-            if hit_target(position, target_min, target_max):
-                best_velocity = Point(initial_velocity.x, initial_velocity.y)
-                final_position_snapshots = position_snapshots
-                break
-
-            if position.y < target_min.y:
-                break
-
-        initial_velocity.y += 1
-
-    print(best_velocity)
-    print_grid(final_position_snapshots, target_min, target_max)
-
     max_y = 0
-    for pos in final_position_snapshots:
-        max_y = max(max_y, pos.y)
+    for y in range(300):
+        for x in range(300):
+            value = launch_probe(Point(x, y), target_min, target_max)
+            if value != sys.maxsize:
+                max_y = max(max_y, value)
 
     return max_y
 
@@ -143,43 +104,13 @@ def part_two(lines: list[str]) -> int:
     target_min = Point(int(first_half.split("..")[0].replace("x=", "")), int(second_half.split("..")[0].replace("y=", "")))
     target_max = Point(int(first_half.split("..")[1].replace("x=", "")), int(second_half.split("..")[1].replace("y=", "")))
 
-    best_velocity = Point(0, 0)
-    best_x = 0
+    count = 0
+    for y in range(-400, 400):
+        for x in range(-400, 400):
+            if launch_probe(Point(x, y), target_min, target_max) != sys.maxsize:
+                count += 1
 
-    while True:
-        if best_x != 0 and not hit_target(Point(summation(best_velocity.x), target_min.y), target_min, target_max):
-            break
-        elif hit_target(Point(summation(best_velocity.x), target_max.y), target_min, target_max):
-            best_x = best_velocity.x
-
-        best_velocity.x += 1
-
-    best_velocity.x = best_x
-    initial_velocities: list[Point] = []
-    initial_velocity = Point(best_velocity.x, best_velocity.y)
-    for _ in range(1000):
-        position = Point(0, 0)
-        velocity = Point(initial_velocity.x, initial_velocity.y)
-        position_snapshots: list[Point] = [Point(position.x, position.y)]
-        while True:
-            position.x += velocity.x
-            position.y += velocity.y
-
-            velocity.x = move_toward(velocity.x, 0, 1)
-            velocity.y -= 1
-
-            position_snapshots.append(Point(position.x, position.y))
-
-            if hit_target(position, target_min, target_max):
-                initial_velocities.append(Point(initial_velocity.x, initial_velocity.y))
-                break
-
-            if position.y < target_min.y:
-                break
-
-        initial_velocity.y += 1
-
-    return len(initial_velocities)
+    return count
 
 if __name__ == "__main__":
     f = open("../Day17.txt")
