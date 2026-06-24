@@ -60,6 +60,30 @@ def summation(n: int) -> int:
 
     return n + summation(n - 1)
 
+"""
+def launch_probe(initial_velocity: Point, target_min: Point, target_max: Point) -> int:
+    max_y = 0
+    position = Point(0, 0)
+    velocity = Point(0, 0)
+
+    while True:
+        position.x += velocity.x
+        position.y += velocity.y
+        velocity.x = move_toward(velocity.x, 0, 1)
+        velocity.y -= 1
+
+        position_snapshots.append(Point(position.x, position.y))
+
+        if hit_target(position, target_min, target_max):
+            max_y = max(max_y, position.y)
+            break
+
+        if position.y < target_min.y:
+            break
+
+    return max_y
+"""
+
 def part_one(lines: list[str]) -> int:
     line = lines[0]
     first_half, second_half = line[13:len(line)].split(", ")
@@ -105,7 +129,7 @@ def part_one(lines: list[str]) -> int:
         initial_velocity.y += 1
 
     print(best_velocity)
-    #print_grid(final_position_snapshots, target_min, target_max)
+    print_grid(final_position_snapshots, target_min, target_max)
 
     max_y = 0
     for pos in final_position_snapshots:
