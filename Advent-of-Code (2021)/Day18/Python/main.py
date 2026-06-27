@@ -45,8 +45,9 @@ class SnailFish:
         self.right = right
         self.fix_depth()
 
-    def explode(self) -> bool:
-        if self.depth != 4 and self.depth != 5:
+    # just fix this shit man
+    def explode(self, special_snail_left_explode: bool) -> bool:
+        if not special_snail_left_explode and self.depth != 4:
             return False
 
         modified: bool = False
@@ -91,13 +92,21 @@ class SnailFish:
 
         return modified
 
+    def is_regular_pair(self) -> bool:
+        return isinstance(self.left, IntegerReference) and  isinstance(self.right, IntegerReference)
+
     def simulate(self):
         modified: bool = True
+
         while modified:
-            if self.depth == 4 and isinstance(self.left, SnailFish):
-                modified = self.left.explode()
-            else:
-                modified = self.explode()
+            modified = False
+            current = self
+            while isinstance(current, SnailFish):
+                if current.depth >= 4 and current.is_regular_pair():
+                    modified = current.explode(True)
+                    break
+
+                current = current.left
 
             modified = self.split() or modified
 
@@ -107,7 +116,14 @@ class SnailFish:
         if isinstance(self.right, SnailFish):
             modified = self.right.simulate() or modified
 
-        modified = self.explode() or modified
+        current = self
+        while isinstance(current, SnailFish):
+            if current.depth >= 4 and current.is_regular_pair():
+                modified = current.explode(True) or modified
+                break
+
+            current = current.left
+
         modified = self.split() or modified
 
         if modified:
