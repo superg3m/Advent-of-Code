@@ -166,6 +166,7 @@ class SnailFish:
 
         return modified
 
+    # TODO(Jovanni): split is wrong because it should split the leftmost regular number first!
     def split(self) -> bool:
         modified: bool = False
 
