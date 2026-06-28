@@ -3,94 +3,6 @@ from __future__ import annotations
 from os.path import split
 from typing import Tuple
 
-"""
-def first_regular_pair(self) -> SnailFish|None:
-    if isinstance(self.left, SnailFish) and self.left.is_regular_pair():
-        return self.left
-    elif isinstance(self.left, SnailFish):
-        left_snail = self.left.first_regular_pair()
-        if isinstance(left_snail, SnailFish) and left_snail.is_regular_pair():
-            return left_snail
-
-    if isinstance(self.right, SnailFish) and self.left.is_regular_pair():
-        return self.right
-    if isinstance(self.right, SnailFish):
-        right_snail = self.right.first_regular_pair()
-        if isinstance(right_snail, SnailFish) and right_snail.is_regular_pair():
-            return right_snail
-
-    return None
-
-def last_regular_pair(self) -> SnailFish|None:
-    if isinstance(self.right, SnailFish) and self.right.is_regular_pair():
-        return self.right
-    elif isinstance(self.right, SnailFish):
-        right_snail = self.right.last_regular_pair()
-        if isinstance(right_snail, SnailFish) and right_snail.is_regular_pair():
-            return right_snail
-
-    if isinstance(self.left, SnailFish) and self.left.is_regular_pair():
-        return self.left
-    if isinstance(self.left, SnailFish):
-        left_snail = self.left.last_regular_pair()
-        if isinstance(left_snail, SnailFish) and left_snail.is_regular_pair():
-            return left_snail
-
-    return None
-
-def first_regular_pair_to_the_left_of_me(self) -> SnailFish|None:
-    if self.parent is None:
-        return None
-
-    if self.parent.right == self:
-        if isinstance(self.parent.left, SnailFish) and self.parent.left.is_regular_pair():
-            return self.parent.left
-
-        if isinstance(self.parent.left, SnailFish):
-            return self.parent.left.last_regular_pair()
-    elif self.parent.left == self:
-        previous = self
-        current = self.parent
-        while current is not None:
-            if previous == current.right:
-                if isinstance(current.left, SnailFish) and current.left.is_regular_pair():
-                    return current.left
-
-                if isinstance(current.left, SnailFish):
-                    return current.left.last_regular_pair()
-
-            previous = current
-            current = current.parent
-
-    return None
-
-def first_regular_pair_to_the_right_of_me(self) -> SnailFish|None:
-    if self.parent is None:
-        return None
-
-    if self.parent.left == self:
-        if isinstance(self.parent.right, SnailFish) and self.parent.right.is_regular_pair():
-            return self.parent.right
-
-        if isinstance(self.parent.right, SnailFish):
-            return self.parent.right.last_regular_pair()
-    elif self.parent.right == self:
-        previous = self
-        current = self.parent
-        while current is not None:
-            if previous == current.left:
-                if isinstance(current.right, SnailFish) and current.right.is_regular_pair():
-                    return current.right
-
-                if isinstance(current.right, SnailFish):
-                    return current.right.last_regular_pair()
-
-            previous = current
-            current = current.parent
-
-    return None
-"""
-
 class IntegerReference:
     value: int = 0
 
@@ -158,11 +70,6 @@ class SnailFish:
                 self.parent.set_right(IntegerReference(0))
                 self.parent = None
                 modified = True
-        else:
-            if isinstance(self.left, SnailFish) and self.left.explode():
-                return True
-
-            return self.right.explode()
 
         return modified
 
@@ -170,18 +77,16 @@ class SnailFish:
     def split(self) -> bool:
         modified: bool = False
 
-        if isinstance(self.left, IntegerReference) and self.left.value >= 10:
-            new_pair = SnailFish(self.depth + 1)
-            new_pair.set_left(IntegerReference(self.left.value // 2))
-            new_pair.set_right(IntegerReference(int((self.left.value / 2) + 0.5)))
-            self.set_left(new_pair)
-            modified = True
+        leftmost_integer_reference, parent = self.get_leftmost_integer_reference_greater_than_9_and_parent()
+        if leftmost_integer_reference is not None:
+            new_pair = SnailFish(parent.depth + 1)
+            new_pair.set_left(IntegerReference(leftmost_integer_reference.value // 2))
+            new_pair.set_right(IntegerReference(int((leftmost_integer_reference.value / 2) + 0.5)))
+            if parent.left == leftmost_integer_reference:
+                parent.set_left(new_pair)
+            else:
+                parent.set_right(new_pair)
 
-        if isinstance(self.right, IntegerReference) and self.right.value >= 10:
-            new_pair = SnailFish(self.depth + 1)
-            new_pair.set_left(IntegerReference(self.right.value // 2))
-            new_pair.set_right(IntegerReference(int((self.right.value / 2) + 0.5)))
-            self.set_right(new_pair)
             modified = True
 
         return modified
@@ -196,58 +101,56 @@ class SnailFish:
 
         return current
 
-    def simulate(self) -> bool:
+    def get_leftmost_regular_pair_ge_to_4_depth(self) -> SnailFish|None:
+        if self.is_regular_pair() and self.depth >= 4:
+            return self
+
+        if isinstance(self.left, SnailFish):
+            maybe_left = self.left.get_leftmost_regular_pair_ge_to_4_depth()
+            if maybe_left is not None:
+                return maybe_left
+
+        if isinstance(self.right, SnailFish):
+            maybe_right = self.right.get_leftmost_regular_pair_ge_to_4_depth()
+            if maybe_right is not None:
+                return maybe_right
+
+        return None
+
+    def get_leftmost_integer_reference_greater_than_9_and_parent(self) -> Tuple[IntegerReference|None, SnailFish|None]:
+        if isinstance(self.left, IntegerReference) and self.left.value > 9:
+            return self.left, self
+
+        if isinstance(self.left, SnailFish):
+            maybe_left, parent = self.left.get_leftmost_integer_reference_greater_than_9_and_parent()
+            if maybe_left is not None:
+                return maybe_left, parent
+
+        if isinstance(self.right, IntegerReference) and self.right.value > 9:
+            return self.right, self
+
+        if isinstance(self.right, SnailFish):
+            maybe_right, parent = self.right.get_leftmost_integer_reference_greater_than_9_and_parent()
+            if maybe_right is not None:
+                return maybe_right, parent
+
+        return None, None
+
+    def simulate(self):
         modified: bool = True
 
         while modified:
             modified = False
-
-            before_explosion_parent: SnailFish = self.parent
-            am_i_left: bool = False if before_explosion_parent is None else before_explosion_parent.left == self
-            if self.depth == 4 and self.explode():
-                print(f"After Explode: {before_explosion_parent.get_topmost_parent()}")
-                if self.parent is None: # I died in the explosion I need to resimulate using the new parent info
-                    if am_i_left and isinstance(before_explosion_parent.left, SnailFish):
-                        return before_explosion_parent.left.simulate()
-                    elif not am_i_left and isinstance(before_explosion_parent.right, SnailFish):
-                        return before_explosion_parent.right.simulate()
-                    else:
-                        return modified
-
+            leftmost_regular_pair = self.get_leftmost_regular_pair_ge_to_4_depth()
+            if leftmost_regular_pair is not None:
+                leftmost_regular_pair.explode()
+                print(f"After Explode:  {self.get_topmost_parent()}")
                 modified = True
+                continue
 
             if self.split():
-                print(f"After Split: {self.get_topmost_parent()}")
+                print(f"After Split:    {self.get_topmost_parent()}")
                 modified = True
-
-        if isinstance(self.left, SnailFish):
-            modified = self.left.simulate()
-
-        if isinstance(self.right, SnailFish):
-            modified = self.right.simulate() or modified
-
-        before_explosion_parent: SnailFish = self.parent
-        am_i_left: bool = False if before_explosion_parent is None else before_explosion_parent.left == self
-        if self.depth == 4 and self.explode():
-            print(f"After Explode: {before_explosion_parent.get_topmost_parent()}")
-            if self.parent is None:  # I died in the explosion I need to resimulate using the new parent info
-                if am_i_left and isinstance(before_explosion_parent.left, SnailFish):
-                    return before_explosion_parent.left.simulate()
-                elif not am_i_left and isinstance(before_explosion_parent.right, SnailFish):
-                    return before_explosion_parent.right.simulate()
-                else:
-                    return modified
-
-            modified = True
-
-        if self.split():
-            print(f"After Split: {self.get_topmost_parent()}")
-            modified = True
-
-        if modified:
-            self.simulate()
-
-        return modified
 
     def first_integer_reference(self) -> IntegerReference|None:
         if isinstance(self.left, IntegerReference):
@@ -331,6 +234,21 @@ class SnailFish:
 
         return None
 
+    def magnitude(self) -> int:
+        mag: int = 0
+
+        if isinstance(self.left, SnailFish):
+            mag += 3 * self.left.magnitude()
+        elif isinstance(self.left, IntegerReference):
+            mag += 3 * self.left.value
+
+        if isinstance(self.right, SnailFish):
+            mag += 2 * self.right.magnitude()
+        elif isinstance(self.right, IntegerReference):
+            mag += 2 * self.right.value
+
+        return mag
+
     def __str__(self):
         if self.left is not None and self.right is not None:
             return f"[{self.left},{self.right}]"
@@ -403,29 +321,18 @@ def validation_check(topmost: SnailFish, snail: SnailFish):
         validation_check(topmost, snail.right)
 
 def part_one(lines: list[str]) -> int:
-    """
-    left: SnailFish = parse_str_to_create_snail_fish("[[[[4,3],4],4],[7,[[8,4],9]]]")
-    right: SnailFish = parse_str_to_create_snail_fish("[1,1]")
-    root: SnailFish = snail_fish_add(left, right)
-
-    print(root)
-    root.simulate()
-    print(root)
-    """
-
     left: SnailFish = parse_str_to_create_snail_fish(lines[0])
     for i in range(1, len(lines)):
         line = lines[i]
         right = parse_str_to_create_snail_fish(line)
         left = snail_fish_add(left, right)
+        print(f"After Addition: {left}")
+        left.simulate()
+        print()
 
-    validation_check(left, left)
-
-    print(f"After Addition: {left}")
-    left.simulate()
     print(left)
 
-    return 0
+    return left.magnitude()
 
 def part_two(lines: list[str]) -> int:
     return 0
