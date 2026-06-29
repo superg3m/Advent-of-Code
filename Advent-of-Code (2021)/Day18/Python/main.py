@@ -144,13 +144,15 @@ class SnailFish:
             leftmost_regular_pair = self.get_leftmost_regular_pair_ge_to_4_depth()
             if leftmost_regular_pair is not None:
                 leftmost_regular_pair.explode()
-                print(f"After Explode:  {self.get_topmost_parent()}")
+                # print(f"After Explode:  {self.get_topmost_parent()}")
                 modified = True
                 continue
 
             if self.split():
-                print(f"After Split:    {self.get_topmost_parent()}")
+                # print(f"After Split:    {self.get_topmost_parent()}")
                 modified = True
+
+        return self
 
     def first_integer_reference(self) -> IntegerReference|None:
         if isinstance(self.left, IntegerReference):
@@ -326,16 +328,32 @@ def part_one(lines: list[str]) -> int:
         line = lines[i]
         right = parse_str_to_create_snail_fish(line)
         left = snail_fish_add(left, right)
-        print(f"After Addition: {left}")
+        # print(f"After Addition: {left}")
         left.simulate()
-        print()
+        #print()
 
-    print(left)
-
+    #print(left)
     return left.magnitude()
 
 def part_two(lines: list[str]) -> int:
-    return 0
+    snail_sum_permutations: list[SnailFish] = []
+
+    for i in range(len(lines) - 1):
+        for j in range(i+1, len(lines)):
+            l1 = parse_str_to_create_snail_fish(lines[i])
+            l2 = parse_str_to_create_snail_fish(lines[i])
+
+            r1 = parse_str_to_create_snail_fish(lines[j])
+            r2 = parse_str_to_create_snail_fish(lines[j])
+
+            snail_sum_permutations.append(snail_fish_add(l1, r1).simulate())
+            snail_sum_permutations.append(snail_fish_add(r2, l2).simulate())
+
+    max_magnitude = 0
+    for snail in snail_sum_permutations:
+        max_magnitude = max(max_magnitude, snail.magnitude())
+
+    return max_magnitude
 
 if __name__ == "__main__":
     f = open("../Day18.txt")
